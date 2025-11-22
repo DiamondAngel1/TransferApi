@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Domain.Entities.Location;
+using Microsoft.EntityFrameworkCore;
+
+namespace Domain
+{
+    public class AppDbTransferContext : DbContext
+    {
+        public AppDbTransferContext(DbContextOptions<AppDbTransferContext> options)
+            : base(options)
+        {
+        }
+        public DbSet<CountryEntity> Countries { get; set; }
+    }
+}

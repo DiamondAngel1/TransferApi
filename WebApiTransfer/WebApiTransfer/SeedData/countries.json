@@ -1,0 +1,26 @@
+﻿[
+    {
+        "Name": "United States",
+        "Code": "US",
+        "Slug": "united-states",
+        "ImageFileName": "us.webp"
+    },
+    {
+        "Name": "Canada",
+        "Code": "CA",
+        "Slug": "canada",
+        "ImageFileName": "ca.webp"
+    },
+    {
+        "Name": "United Kingdom",
+        "Code": "UK",
+        "Slug": "united-kingdom",
+        "ImageFileName": "uk.webp"
+    },
+    {
+        "Name": "Australia",
+        "Code": "AU",
+        "Slug": "australia",
+        "ImageFileName": "au.webp"
+    }
+]
