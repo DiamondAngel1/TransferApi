@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import type {Country} from "../Interfaces/Country";
 import { useNavigate } from "react-router-dom";
+import APP_ENV from "../env";
 
 function HomePage() {
     const [countries, setCountries] = useState<Country[]>([]);
@@ -10,7 +11,7 @@ function HomePage() {
     useEffect(() => {
         const fetchCountries = async () => {
             try {
-                const response = await axios.get<Country[]>("http://localhost:5149/api/Countries");
+                const response = await axios.get<Country[]>(`${APP_ENV.API_BASE_URL}/api/Countries`);
                 setCountries(response.data);
             } catch (error) {
                 console.error("Помилка при отриманні країн:", error);
@@ -21,7 +22,7 @@ function HomePage() {
 
     const deleteCountry = async (id: number) => {
         try {
-            await axios.delete(`http://localhost:5149/api/Countries/${id}`);
+            await axios.delete(`${APP_ENV.API_BASE_URL}/api/Countries/${id}`);
             setCountries(prev => prev.filter(c => c.id !== id));
         } catch (error) {
             console.error("Помилка при видаленні країни:", error);
@@ -47,7 +48,7 @@ function HomePage() {
                 >
                     <div className="relative h-48 w-full overflow-hidden">
                         <img
-                            src={`http://localhost:5149/images/${country.image ?? "default.png"}`}
+                            src={`${APP_ENV.API_BASE_URL}/images/${country.image ?? "default.png"}`}
                             alt={country.name}
                             className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
                         />
@@ -66,6 +67,14 @@ function HomePage() {
                             className="mt-2 px-5 py-2 text-sm font-semibold rounded-lg bg-red-600 hover:bg-red-700 cursor-pointer text-white  transition-colors shadow-md"
                         >
                             Delete
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => navigate(`/edit-country/${country.id}`)}
+                            className="mt-2 ml-2 px-5 py-2 text-sm font-semibold rounded-lg bg-amber-300 hover:bg-amber-400 cursor-pointer text-black transition-colors shadow-md"
+                        >
+                            Edit
                         </button>
                     </div>
                 </div>
