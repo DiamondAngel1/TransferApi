@@ -36,5 +36,22 @@ namespace Core.Services
                 return String.Empty;
             }
         }
+        public Task<string> DeleteImageAsync(string fileName)
+        {
+            try
+            {
+                var dirImageName = configuration["DirImageName"] ?? "images";
+                var path = Path.Combine(Directory.GetCurrentDirectory(), dirImageName, fileName);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                return Task.FromResult("Deleted");
+            }
+            catch
+            {
+                return Task.FromResult("Error");
+            }
+        }
     }
 }

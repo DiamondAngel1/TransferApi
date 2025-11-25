@@ -16,6 +16,9 @@ namespace Core.Mappers
             CreateMap<CountryEntity, CountryItemModel>();
             CreateMap<CountryCreateModel, CountryEntity>()
                 .ForMember(x=>x.Image, opt=>opt.Ignore());
+            CreateMap<CountryUpdateModel, CountryEntity>()
+                .ForMember(x => x.Image, opt => opt.Ignore());
+
         }
     }
 }

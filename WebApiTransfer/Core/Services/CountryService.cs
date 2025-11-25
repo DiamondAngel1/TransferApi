@@ -16,6 +16,18 @@ namespace Core.Services
         IImageService imageService,
         IMapper mapper) : ICountryService
     {
+        public async Task<CountryItemModel> GetByIdAsync(int id)
+        {
+            var entity = await context.Countries.FindAsync(id);
+            if (entity == null || entity.IsDeleted)
+            {
+                throw new Exception("Country not found");
+            }
+
+            var item = mapper.Map<CountryItemModel>(entity);
+            return item;
+        }
+
         public async Task<List<CountryItemModel>> GetListAsync()
         {
             var list = await context.Countries
@@ -52,10 +64,38 @@ namespace Core.Services
             {
                 throw new Exception("Country not found");
             }
-            context.Countries.Remove(entity);
+            entity.IsDeleted = true;
+            context.Countries.Update(entity);
             await context.SaveChangesAsync();
             var item = mapper.Map<CountryItemModel>(entity);
             return item;
         }
+        public async Task<CountryItemModel> UpdateAsync(int id, CountryUpdateModel model)
+        {
+            var entity = await context.Countries.FindAsync(id);
+            if (entity == null)
+            {
+                throw new Exception("Country not found");
+            }
+
+            mapper.Map(model, entity);
+
+            if (model.Image != null)
+            {
+                if (!string.IsNullOrEmpty(entity.Image))
+                {
+                    await imageService.DeleteImageAsync(entity.Image);
+                }
+                entity.Image = await imageService.UploadImageAsync(model.Image);
+            }
+
+            await context.SaveChangesAsync();
+
+            var item = mapper.Map<CountryItemModel>(entity);
+            return item;
+        }
+
+
+
     }
 }

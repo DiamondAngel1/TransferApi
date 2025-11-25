@@ -19,6 +19,13 @@ namespace WebApiTransfer.Controllers
             return Ok(list);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCountry(int id)
+        {
+            var item = await countryService.GetByIdAsync(id);
+            return Ok(item);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateCountry([FromForm] CountryCreateModel model)
         {
@@ -32,5 +39,13 @@ namespace WebApiTransfer.Controllers
             var item = await countryService.DeleteAsync(id);
             return Ok(item);
         }
+
+        [HttpPut("edit/{id}")]
+        public async Task<IActionResult> UpdateCountry(int id, [FromForm] CountryUpdateModel model)
+        {
+            var item = await countryService.UpdateAsync(id, model);
+            return Ok(item);
+        }
+
     }
 }
