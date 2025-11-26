@@ -8,7 +8,7 @@ function EditCountry() {
     const [code, setCode] = useState("");
     const [slug, setSlug] = useState("");
     const [image, setImage] = useState<File | null>(null);
-    const [error, setError] = useState("");
+    const [errors, setErrors] = useState<{ [key: string]: string[] }>({});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,7 +20,7 @@ function EditCountry() {
                 setCode(country.code);
                 setSlug(country.slug);
             } catch {
-                setError("Помилка при завантаженні країни");
+                setErrors({ General: ["Помилка при завантаженні країни"] });
             }
         };
         fetchCountry();
@@ -28,14 +28,9 @@ function EditCountry() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        if (!name || !code || !slug) {
-            setError("Усі текстові поля обов'язкові!");
-            return;
-        }
-
         try {
             const formData = new FormData();
+            formData.append("Id", id!);
             formData.append("Name", name);
             formData.append("Code", code);
             formData.append("Slug", slug);
@@ -43,13 +38,18 @@ function EditCountry() {
                 formData.append("Image", image);
             }
 
-            await axios.put(`http://localhost:5149/api/Countries/edit/${id}`, formData, {
+            await axios.put(`http://localhost:5149/api/Countries/edit`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             navigate("/");
-        } catch {
-            setError("Помилка при редагуванні країни");
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data?.errors) {
+                setErrors(err.response.data.errors);
+            } else {
+                setErrors({ General: ["Помилка при редагуванні країни"] });
+            }
         }
+
     };
 
     return (
@@ -71,8 +71,8 @@ function EditCountry() {
                     Редагувати країну
                 </h2>
 
-                {error && (
-                    <p className="text-red-600 mb-4 text-center font-medium">{error}</p>
+                {errors.General && (
+                    <p className="text-red-600 mb-4 text-center font-medium">{errors.General[0]}</p>
                 )}
 
                 <div className="mb-5">
@@ -85,6 +85,7 @@ function EditCountry() {
                         onChange={(e) => setName(e.target.value)}
                         className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
                     />
+                    {errors.Name && <p className="text-red-600 text-sm">{errors.Name[0]}</p>}
                 </div>
 
                 <div className="mb-5">
@@ -97,6 +98,7 @@ function EditCountry() {
                         onChange={(e) => setCode(e.target.value)}
                         className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
                     />
+                    {errors.Code && <p className="text-red-600 text-sm">{errors.Code[0]}</p>}
                 </div>
 
                 <div className="mb-5">
@@ -109,6 +111,7 @@ function EditCountry() {
                         onChange={(e) => setSlug(e.target.value)}
                         className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
                     />
+                    {errors.Slug && <p className="text-red-600 text-sm">{errors.Slug[0]}</p>}
                 </div>
                 <div className="mb-8">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -122,9 +125,9 @@ function EditCountry() {
                             if (file) {
                                 if (file.type.startsWith("image/")) {
                                     setImage(file);
-                                    setError("");
+                                    setErrors({});
                                 } else {
-                                    setError("Можна обирати лише зображення");
+                                    setErrors({ Image: ["Можна обирати лише зображення"] });
                                     setImage(null);
                                     e.target.value = "";
                                 }

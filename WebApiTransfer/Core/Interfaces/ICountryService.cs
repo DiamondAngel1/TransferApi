@@ -13,6 +13,6 @@ namespace Core.Interfaces
         Task<List<CountryItemModel>> GetListAsync();
         Task<CountryItemModel> CreateAsync(CountryCreateModel model);
         Task<CountryItemModel> DeleteAsync(int id);
-        Task<CountryItemModel> UpdateAsync(int id, CountryUpdateModel model);
+        Task<CountryItemModel> UpdateAsync(CountryUpdateModel model);
     }
 }

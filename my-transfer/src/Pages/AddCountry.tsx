@@ -7,31 +7,31 @@ function AddCountry() {
     const [code, setCode] = useState("");
     const [slug, setSlug] = useState("");
     const [image, setImage] = useState<File | null>(null);
-    const [error, setError] = useState("");
+    const [errors, setErrors] = useState<{ [key: string]: string[] }>({});
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        if (!name || !code || !slug || !image) {
-            setError("Усі поля обов'язкові!");
-            return;
-        }
 
         try {
             const formData = new FormData();
             formData.append("Name", name);
             formData.append("Code", code);
             formData.append("Slug", slug);
-            formData.append("Image", image);
+            if (image) formData.append("Image", image);
 
             await axios.post("http://localhost:5149/api/Countries", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             navigate("/");
-        } catch {
-            setError("Помилка при додаванні країни");
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data?.errors) {
+                setErrors(err.response.data.errors);
+            } else {
+                setErrors({ General: ["Помилка при додаванні країни"] });
+            }
         }
+
     };
 
     return (
@@ -53,8 +53,8 @@ function AddCountry() {
                     Додати країну
                 </h2>
 
-                {error && (
-                    <p className="text-red-600 mb-4 text-center font-medium">{error}</p>
+                {errors.General && (
+                    <p className="text-red-600 mb-4 text-center font-medium">{errors.General[0]}</p>
                 )}
 
                 <div className="mb-5">
@@ -67,6 +67,7 @@ function AddCountry() {
                         onChange={(e) => setName(e.target.value)}
                         className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
                     />
+                    {errors.Name && <p className="text-red-600 text-sm">{errors.Name[0]}</p>}
                 </div>
 
                 <div className="mb-5">
@@ -79,6 +80,7 @@ function AddCountry() {
                         onChange={(e) => setCode(e.target.value)}
                         className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
                     />
+                    {errors.Code && <p className="text-red-600 text-sm">{errors.Code[0]}</p>}
                 </div>
 
                 <div className="mb-5">
@@ -91,6 +93,7 @@ function AddCountry() {
                         onChange={(e) => setSlug(e.target.value)}
                         className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
                     />
+                    {errors.Slug && <p className="text-red-600 text-sm">{errors.Slug[0]}</p>}
                 </div>
 
                 <div className="mb-8">
@@ -105,9 +108,9 @@ function AddCountry() {
                             if (file) {
                                 if (file.type.startsWith("image/")) {
                                     setImage(file);
-                                    setError("");
+                                    setErrors({});
                                 } else {
-                                    setError("Можна обирати лише зображення");
+                                    setErrors({ Image: ["Можна обирати лише зображення"] });
                                     setImage(null);
                                     e.target.value = "";
                                 }
@@ -115,6 +118,7 @@ function AddCountry() {
                         }}
                         className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
                     />
+                    {errors.Image && <p className="text-red-600 text-sm">{errors.Image[0]}</p>}
                 </div>
 
                 <button

@@ -40,10 +40,10 @@ namespace WebApiTransfer.Controllers
             return Ok(item);
         }
 
-        [HttpPut("edit/{id}")]
-        public async Task<IActionResult> UpdateCountry(int id, [FromForm] CountryUpdateModel model)
+        [HttpPut("edit")]
+        public async Task<IActionResult> UpdateCountry([FromForm] CountryUpdateModel model)
         {
-            var item = await countryService.UpdateAsync(id, model);
+            var item = await countryService.UpdateAsync(model);
             return Ok(item);
         }
 

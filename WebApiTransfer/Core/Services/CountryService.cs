@@ -70,10 +70,10 @@ namespace Core.Services
             var item = mapper.Map<CountryItemModel>(entity);
             return item;
         }
-        public async Task<CountryItemModel> UpdateAsync(int id, CountryUpdateModel model)
+        public async Task<CountryItemModel> UpdateAsync(CountryUpdateModel model)
         {
-            var entity = await context.Countries.FindAsync(id);
-            if (entity == null)
+            var entity = await context.Countries.FindAsync(model.Id);
+            if (entity == null || entity.IsDeleted)
             {
                 throw new Exception("Country not found");
             }
