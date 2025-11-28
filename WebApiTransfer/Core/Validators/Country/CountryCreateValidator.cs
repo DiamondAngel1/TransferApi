@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Models.Location;
+using Core.Models.Location.Country;
 using Domain;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +47,8 @@ namespace Core.Validators.Country
                         .WithMessage("Такий слаг вже існує");
                 });
             RuleFor(x => x.Image)
-                .NotNull().WithMessage("Фото обовязкове");
+                .NotNull().WithMessage("Фото обовязкове")
+ ;
         }
     }
 }

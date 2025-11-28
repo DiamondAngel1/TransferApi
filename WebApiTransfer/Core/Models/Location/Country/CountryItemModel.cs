@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Models.Location
+namespace Core.Models.Location.Country
 {
     public class CountryItemModel
     {

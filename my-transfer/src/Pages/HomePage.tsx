@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import type {Country} from "../Interfaces/Country";
+import type {ICity} from "../Interfaces/ICountry.ts";
 import { useNavigate } from "react-router-dom";
 import APP_ENV from "../env";
 
 function HomePage() {
-    const [countries, setCountries] = useState<Country[]>([]);
+    const [countries, setCountries] = useState<ICity[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCountries = async () => {
             try {
-                const response = await axios.get<Country[]>(`${APP_ENV.API_BASE_URL}/api/Countries`);
+                const response = await axios.get<ICity[]>(`${APP_ENV.API_BASE_URL}/api/Countries`);
                 setCountries(response.data);
             } catch (error) {
                 console.error("Помилка при отриманні країн:", error);

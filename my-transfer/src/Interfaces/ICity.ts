@@ -1,7 +1,8 @@
-export interface Country {
+export interface ICity {
     id: number;
     name: string;
-    code: string;
     slug: string;
+    country: string;
+    description: string;
     image: string | null;
 }

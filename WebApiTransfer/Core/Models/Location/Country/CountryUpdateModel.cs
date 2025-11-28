@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Core.Models.Location
+namespace Core.Models.Location.Country
 {
     public class CountryUpdateModel
     {

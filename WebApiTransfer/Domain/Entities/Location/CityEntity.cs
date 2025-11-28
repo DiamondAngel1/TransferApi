@@ -8,17 +8,22 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Location
 {
-    [Table("tbl_Countries")]
-    public class CountryEntity : BaseEntity<int>
+    [Table("tbl_city")]
+    public class CityEntity : BaseEntity<int>
     {
         [StringLength(250)]
         public string Name { get; set; } = null!;
-        [StringLength(10)]
-        public string Code { get; set; } = null!;
+
         [StringLength(250)]
         public string Slug { get; set; } = null!;
+
         public string? Image { get; set; }
 
-        public ICollection<CityEntity> Cities { get; set; } = null!;
+        public string? Description { get; set; }
+
+        [ForeignKey(nameof(Country))]
+        public int CountryId { get; set; }
+
+        public CountryEntity Country { get; set; } = null!;
     }
 }
