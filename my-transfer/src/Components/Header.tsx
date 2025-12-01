@@ -18,6 +18,12 @@ function Header() {
                     >
                         Міста
                     </Link>
+                    <Link
+                        to="/login"
+                        className="hover:text-gray-200 transition font-medium"
+                    >
+                        Логін
+                    </Link>
                 </nav>
             </div>
         </header>

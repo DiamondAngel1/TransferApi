@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Core.Interfaces;
-using Core.Models.Location;
 using Core.Models.Location.City;
 using Core.Models.Location.Country;
 using Domain;

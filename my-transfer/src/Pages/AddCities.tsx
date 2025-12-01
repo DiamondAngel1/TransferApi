@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import APP_ENV from "../env";
 import {Editor} from "@tinymce/tinymce-react";
-
+import type {ICityCreate} from "../Interfaces/ICityCreate.ts";
 
 function AddCities() {
 
@@ -33,14 +33,21 @@ function AddCities() {
         e.preventDefault();
 
         try {
-            const formData = new FormData();
-            formData.append("Name", name);
-            formData.append("Slug", slug);
-            formData.append("Description", description);
-            formData.append("CountryId", countryId);
-            if (image) formData.append("Image", image);
+            // const formData = new FormData();
+            // formData.append("Name", name);
+            // formData.append("Slug", slug);
+            // formData.append("Description", description);
+            // formData.append("CountryId", countryId);
+            // if (image) formData.append("Image", image);
+            const model : ICityCreate = {
+                name,
+                slug,
+                description,
+                countryId,
+                image
+            };
 
-            await axios.post(`${APP_ENV.API_BASE_URL}/api/Cities`, formData, {
+            await axios.post(`${APP_ENV.API_BASE_URL}/api/Cities`, model, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             navigate("/cities");

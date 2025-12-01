@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Core.Models.Location;
 using Core.Models.Location.City;
 using Core.Models.Location.Country;
 using Domain.Entities.Location;
