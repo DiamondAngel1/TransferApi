@@ -1,12 +1,17 @@
+using System.Text;
 using Core.Interfaces;
+using Core.Models.Account;
 using Core.Services;
 using Domain;
 using Domain.Entities.Identity;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using WebApiTransfer.Filters;
 using WebApiTransfer.Seeders;
 
@@ -17,15 +22,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbTransferContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-builder.Services.AddScoped<ICountryService, CountryService>();
-
-builder.Services.AddScoped<ICityService, CityService>();
-
-builder.Services.AddScoped<IImageService, ImageService>();
-
-builder.Services.AddScoped<IGoogleAccountService, GoogleAccountService>();
 builder.Services.AddIdentity<UserEntity, RoleEntity>(options =>
 {
     options.Password.RequireDigit = false;
@@ -36,8 +32,42 @@ builder.Services.AddIdentity<UserEntity, RoleEntity>(options =>
     options.Password.RequiredUniqueChars = 1;
 })
     .AddEntityFrameworkStores<AppDbTransferContext>()
-    //Використання нашої БД
     .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<ICountryService, CountryService>();
+
+builder.Services.AddScoped<ICityService, CityService>();
+
+builder.Services.AddScoped<IImageService, ImageService>();
+
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+builder.Services.AddScoped<IAccountService, AccountService>();
+
+builder.Services.AddScoped<IGoogleAccountService, GoogleAccountService>();
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -52,7 +82,37 @@ builder.Services.AddMvc(options =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddSwaggerGen();
+var assemblyName = typeof(LoginModel).Assembly.GetName().Name;
+builder.Services.AddSwaggerGen(options =>
+{
+    var fileDoc = $"{assemblyName}.xml";
+    var filePath = Path.Combine(AppContext.BaseDirectory, fileDoc);
+    options.IncludeXmlComments(filePath);
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme.",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
 
 builder.Services.AddCors();
 
@@ -77,12 +137,42 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbTransferContext>();
     var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+    var roles = new[] { "Admin", "User" };
+    var roleManager = scope.ServiceProvider
+        .GetRequiredService<RoleManager<RoleEntity>>();
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new RoleEntity { Name = role });
+        }
+    }
+    if (!context.Users.Any())
+    {
+        var userManager = scope.ServiceProvider
+            .GetRequiredService<UserManager<UserEntity>>();
+        var adminUser = new UserEntity
+        {
+            UserName = "siuzanna@gmail.com",
+            Email = "siuzanna@gmail.com",
+            FirstName = "Siuzanna",
+            LastName = "Tararuk",
+            Image = "default.jpg"
+        };
+        var result = await userManager.CreateAsync(adminUser, "Siuzanna123");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
+    }
+
     await CountrySeeder.SeedAsync(context, env);
 }
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

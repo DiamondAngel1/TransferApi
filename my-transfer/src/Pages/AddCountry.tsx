@@ -9,7 +9,7 @@ function AddCountry() {
     const [image, setImage] = useState<File | null>(null);
     const [errors, setErrors] = useState<{ [key: string]: string[] }>({});
     const navigate = useNavigate();
-
+    const token = localStorage.getItem("token");
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -21,7 +21,7 @@ function AddCountry() {
             if (image) formData.append("Image", image);
 
             await axios.post("http://localhost:5149/api/Countries", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
+                headers: { Authorization: `Bearer ${token}` },
             });
             navigate("/");
         } catch (err) {

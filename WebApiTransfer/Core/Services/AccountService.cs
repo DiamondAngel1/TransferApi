@@ -1,0 +1,68 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
+using Core.Interfaces;
+using Core.Models.Account;
+using Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+
+namespace Core.Services
+{
+    public class AccountService(UserManager<UserEntity> userManager,
+        RoleManager<RoleEntity> roleManager,
+        IJwtTokenService jwtTokenService,
+        IImageService imageService,
+        IMapper mapper) : IAccountService
+    {
+        public async Task<(UserEntity user, string token)> RegisterAsync(RegisterModel model)
+        {
+            var entity = mapper.Map<UserEntity>(model);
+            if (model.Image != null)
+            {
+                entity.Image = await imageService.UploadImageAsync(model.Image);
+            }
+            else
+            {
+                entity.Image = "default-user.png";
+            }
+            var result = await userManager.CreateAsync(entity, model.Password);
+            if (!result.Succeeded)
+                throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+
+            if (!await roleManager.RoleExistsAsync("User"))
+            {
+                await roleManager.CreateAsync(new RoleEntity("User"));
+            }
+            await userManager.AddToRoleAsync(entity, "User");
+            var token = await jwtTokenService.CreateAsync(entity);
+
+            return (entity, token);
+        }
+
+        public async Task<string> LoginAsync(LoginModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return null;
+
+            var isPasswordValid = await userManager.CheckPasswordAsync(user, model.Password);
+            if (!isPasswordValid)
+                return null;
+
+            var token = await jwtTokenService.CreateAsync(user);
+            return token;
+        }
+
+        public async Task<UserEntity?> GetUserAsync(ClaimsPrincipal principal)
+        {
+            var email = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            if (email == null)
+                return null;
+            return await userManager.FindByEmailAsync(email);
+        }
+    }
+}

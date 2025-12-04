@@ -2,6 +2,7 @@
 using Core.Models.Location.Country;
 using Core.Services;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace WebApiTransfer.Controllers
         : ControllerBase
     {
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCountries()
         {
             var list = await countryService.GetListAsync();
@@ -20,6 +22,7 @@ namespace WebApiTransfer.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCountry(int id)
         {
             var item = await countryService.GetByIdAsync(id);
@@ -27,6 +30,7 @@ namespace WebApiTransfer.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> CreateCountry([FromForm] CountryCreateModel model)
         {
             var item = await countryService.CreateAsync(model);
