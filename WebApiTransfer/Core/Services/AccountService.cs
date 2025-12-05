@@ -5,17 +5,22 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Core.Interfaces;
 using Core.Models.Account;
+using Domain;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Services
 {
     public class AccountService(UserManager<UserEntity> userManager,
         RoleManager<RoleEntity> roleManager,
+        AppDbTransferContext transferContext,
         IJwtTokenService jwtTokenService,
         IImageService imageService,
+        IAuthService authService,
         IMapper mapper) : IAccountService
     {
         public async Task<(UserEntity user, string token)> RegisterAsync(RegisterModel model)
@@ -63,6 +68,16 @@ namespace Core.Services
             if (email == null)
                 return null;
             return await userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<UserProfileModel> GetUserProfileAsync()
+        {
+            var userId = await authService.GetUserIdAsync();
+
+            var profile = await transferContext.Users
+                .ProjectTo<UserProfileModel>(mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync(u => u.Id == userId!);
+            return profile!;
         }
     }
 }

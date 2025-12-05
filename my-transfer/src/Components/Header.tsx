@@ -1,12 +1,15 @@
 import {Link, useNavigate} from "react-router-dom";
-import {useAuth} from "../hooks/useAuth.ts";
+import {logout} from "../Features/auth/authSlice.ts";
+import type {AppDispatch, RootState} from "../app/store.ts";
+import {useDispatch, useSelector} from "react-redux";
 
 function Header() {
-    const {token,logout} = useAuth();
+    const token = useSelector((state: RootState) => state.auth.token);
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        logout();
+        dispatch(logout());
         navigate("/login");
     }
     return (

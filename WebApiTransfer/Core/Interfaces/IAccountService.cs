@@ -14,5 +14,6 @@ namespace Core.Interfaces
         Task<(UserEntity user, string token)> RegisterAsync(RegisterModel model);
         Task<string> LoginAsync(LoginModel model);
         Task<UserEntity> GetUserAsync(ClaimsPrincipal principal);
+        Task<UserProfileModel> GetUserProfileAsync();
     }
 }

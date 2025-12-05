@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import type {IUserProfile} from "../Interfaces/IUserProfile.ts";
+import type {IUserProfile} from "../Interfaces/user/IUserProfile.ts";
 
 function ProfilePage() {
     const [user, setUser] = useState<IUserProfile | null>(null);
@@ -11,7 +11,7 @@ function ProfilePage() {
             try {
                 const token = localStorage.getItem("token");
                 const response = await axios.get<IUserProfile>(
-                    "http://localhost:5149/api/Account/user",
+                    "http://localhost:5149/api/Account/me",
                     {
                         headers:{
                             Authorization: `Bearer ${token}`,
@@ -42,11 +42,10 @@ if (!user) {
                 alt="User avatar"
                 style={{ width: "150px", borderRadius: "50%" }}
             />
-            <p><strong>Ім’я:</strong> {user.firstName}</p>
-            <p><strong>Прізвище:</strong> {user.lastName}</p>
+            <p><strong>ID:</strong> {user.id}</p>
+            <p><strong>Ім’я:</strong> {user.fullName}</p>
             <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Телефон:</strong> {user.phoneNumber}</p>
-            <p><strong>Ролі:</strong> {user.roles.join(", ")}</p>
+            <p><strong>Телефон:</strong> {user.phone}</p>
         </div>
     );
 }

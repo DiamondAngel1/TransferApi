@@ -21,6 +21,7 @@ namespace Core.Mappers
                 .ForMember(u => u.LastName, opt => opt.MapFrom(m => m.LastName))
                 .ForMember(u => u.Image, opt => opt.MapFrom(m => m.PictureUrl))
                 .ForMember(u => u.EmailConfirmed, opt => opt.MapFrom(_ => true));
+
             CreateMap<RegisterModel, UserEntity>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(m => m.Email))
                 .ForMember(u => u.Email, opt => opt.MapFrom(m => m.Email))
@@ -28,6 +29,11 @@ namespace Core.Mappers
                 .ForMember(u => u.LastName, opt => opt.MapFrom(m => m.LastName))
                 .ForMember(u => u.PhoneNumber, opt => opt.MapFrom(m => m.PhoneNumber))
                 .ForMember(u => u.Image, opt => opt.Ignore());
+
+            CreateMap<UserEntity, UserProfileModel>()
+                .ForMember(m => m.FullName, opt => opt.MapFrom(u => $"{u.LastName} {u.FirstName}"))
+                .ForMember(m => m.Phone, opt => opt.MapFrom(u => u.PhoneNumber));
+                
         }
     }
 

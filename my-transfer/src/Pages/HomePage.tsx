@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import type {ICity} from "../Interfaces/ICountry.ts";
+import type {ICity} from "../Interfaces/Country/ICountry.ts";
 import { useNavigate } from "react-router-dom";
 import APP_ENV from "../env";
 

@@ -93,7 +93,14 @@ namespace WebApiTransfer.Controllers
                 user.Image,
                 Roles = roles
             });
+        }
 
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            var model = await accountService.GetUserProfileAsync();
+            return Ok(model);
         }
     }
 }

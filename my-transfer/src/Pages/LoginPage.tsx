@@ -3,10 +3,12 @@ import {GoogleOAuthProvider, GoogleLogin, type CredentialResponse} from "@react-
 import APP_ENV from "../env";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useAuth} from "../hooks/useAuth.ts";
+import {useDispatch} from "react-redux";
+import type {AppDispatch} from "../app/store.ts";
+import {login} from "../Features/auth/authSlice.ts";
 
 function LoginPage() {
-    const {login} = useAuth();
+    const dispatch = useDispatch<AppDispatch>();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<Record<string, string[]>>({});
@@ -14,15 +16,15 @@ function LoginPage() {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setErrors({})
-        try {
-            const res = await axios.post("http://localhost:5149/api/Account/login", {
+        try{
+            const res = await axios.post(`${APP_ENV.API_BASE_URL}/api/Account/login`, {
                 email,
-                password,
+                password
             });
-            login(res.data.token);
+            dispatch(login(res.data.token));
             navigate("/profile");
-        } catch (err) {
+        }
+        catch(err){
             if (axios.isAxiosError(err) && err.response?.data?.errors) {
                 setErrors(err.response.data.errors);
             } else if (axios.isAxiosError(err) && err.response?.data?.message) {
@@ -55,7 +57,6 @@ function LoginPage() {
                     </h2>
 
                     {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email[0]}</p>}
-                    {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password[0]}</p>}
 
                     <div className="mb-5">
                         <label className="block text-sm font-medium text-gray-700 mb-1">

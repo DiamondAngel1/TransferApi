@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import APP_ENV from "../env";
 import {Editor} from "@tinymce/tinymce-react";
-import type {ICityCreate} from "../Interfaces/ICityCreate.ts";
+import type {ICityCreate} from "../Interfaces/City/ICityCreate.ts";
 
 function AddCities() {
 

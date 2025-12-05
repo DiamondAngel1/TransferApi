@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 import axios from "axios";
 import APP_ENV from "../env";
-import type { ICity } from "../Interfaces/ICity";
+import type { ICity } from "../Interfaces/City/ICity.ts";
 
 function CityDescriptionPage() {
     const location = useLocation();
