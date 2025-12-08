@@ -22,5 +22,17 @@
         "Code": "AU",
         "Slug": "australia",
         "ImageFileName": "au.webp"
+    },
+    {
+        "Name": "Ukraine",
+        "Code": "UA",
+        "Slug": "ukraine",
+        "ImageFileName": "ua.webp"
+    },
+    {
+        "Name": "Germany",
+        "Code": "DE",
+        "Slug": "germany",
+        "ImageFileName": "de.webp"
     }
 ]

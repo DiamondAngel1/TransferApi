@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.Entities.Location
+namespace Domain.Entities.Location;
+
+[Table("tblCities")]
+public class CityEntity : BaseEntity<int>
 {
-    [Table("tbl_city")]
-    public class CityEntity : BaseEntity<int>
-    {
-        [StringLength(250)]
-        public string Name { get; set; } = null!;
+    [StringLength(250)]
+    public string Name { get; set; } = null!;
 
-        [StringLength(250)]
-        public string Slug { get; set; } = null!;
+    [StringLength(250)]
+    public string Slug { get; set; } = null!;
 
-        public string? Image { get; set; }
+    public string? Image { get; set; }
 
-        public string? Description { get; set; }
+    public string? Description { get; set; }
 
-        [ForeignKey(nameof(Country))]
-        public int CountryId { get; set; }
+    // Зовнішній ключ на країну
+    [ForeignKey(nameof(Country))]
+    public int CountryId { get; set; }
 
-        public CountryEntity Country { get; set; } = null!;
-    }
+    public CountryEntity Country { get; set; } = null!;
+
+    public ICollection<TransportationEntity> Departures { get; set; }
+    public ICollection<TransportationEntity> Arrivals { get; set; }
+
 }
+

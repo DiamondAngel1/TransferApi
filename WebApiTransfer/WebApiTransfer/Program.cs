@@ -144,6 +144,8 @@ using (var scope = app.Services.CreateScope())
     var roles = new[] { "Admin", "User" };
     var roleManager = scope.ServiceProvider
         .GetRequiredService<RoleManager<RoleEntity>>();
+    var userManager = scope.ServiceProvider
+        .GetRequiredService<UserManager<UserEntity>>();
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
@@ -151,26 +153,12 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new RoleEntity { Name = role });
         }
     }
-    if (!context.Users.Any())
-    {
-        var userManager = scope.ServiceProvider
-            .GetRequiredService<UserManager<UserEntity>>();
-        var adminUser = new UserEntity
-        {
-            UserName = "siuzanna@gmail.com",
-            Email = "siuzanna@gmail.com",
-            FirstName = "Siuzanna",
-            LastName = "Tararuk",
-            Image = "default.jpg"
-        };
-        var result = await userManager.CreateAsync(adminUser, "Siuzanna123");
-        if (result.Succeeded)
-        {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
-        }
-    }
 
     await CountrySeeder.SeedAsync(context, env);
+    await CitySeeder.SeedAsync(context, env);
+    await TrasportationStatusSeeder.SeedAsync(context, env);
+    await TransportationSeeder.SeedAsync(context, env);
+    await UserSeeder.SeedAsync(userManager, roleManager, env);
 }
 
 app.UseSwagger();

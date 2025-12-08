@@ -1,0 +1,135 @@
+﻿[
+    {
+        "Name": "New York",
+        "Slug": "new-york",
+        "ImageFileName": "ny.webp",
+        "Description": "Нью-Йорк — найбільше місто США, відоме як «Велике яблуко». Це фінансовий та культурний центр країни, де розташовані Волл-стріт, Центральний парк, Бродвей та Статуя Свободи.",
+        "CountryCode": "US"
+    },
+    {
+        "Name": "Los Angeles",
+        "Slug": "los-angeles",
+        "ImageFileName": "la.webp",
+        "Description": "Лос-Анджелес — друге за величиною місто США, столиця кіноіндустрії Голлівуду. Відоме своїми пляжами, сучасною архітектурою та багатокультурним населенням.",
+        "CountryCode": "US"
+    },
+    {
+        "Name": "Chicago",
+        "Slug": "chicago",
+        "ImageFileName": "chicago.webp",
+        "Description": "Чикаго — велике місто на берегах озера Мічиган, відоме своїми хмарочосами, джазовою музикою та кулінарними традиціями, зокрема знаменитою піцою deep-dish.",
+        "CountryCode": "US"
+    },
+    {
+        "Name": "Toronto",
+        "Slug": "toronto",
+        "ImageFileName": "toronto.webp",
+        "Description": "Торонто — найбільше місто Канади, фінансовий та культурний центр країни. Тут знаходиться CN Tower, численні музеї та багатокультурні райони.",
+        "CountryCode": "CA"
+    },
+    {
+        "Name": "Vancouver",
+        "Slug": "vancouver",
+        "ImageFileName": "vancouver.webp",
+        "Description": "Ванкувер — місто на західному узбережжі Канади, оточене горами та океаном. Відоме своїми природними краєвидами, екологічністю та високою якістю життя.",
+        "CountryCode": "CA"
+    },
+    {
+        "Name": "Montreal",
+        "Slug": "montreal",
+        "ImageFileName": "montreal.webp",
+        "Description": "Монреаль — друге за величиною місто Канади, культурна столиця франкомовної провінції Квебек. Відоме фестивалями, історичною архітектурою та гастрономією.",
+        "CountryCode": "CA"
+    },
+    {
+        "Name": "London",
+        "Slug": "london",
+        "ImageFileName": "london.webp",
+        "Description": "Лондон — столиця Великої Британії, одне з найвідоміших міст світу. Тут розташовані Біг-Бен, Тауерський міст, Букінгемський палац та численні музеї.",
+        "CountryCode": "UK"
+    },
+    {
+        "Name": "Manchester",
+        "Slug": "manchester",
+        "ImageFileName": "manchester.webp",
+        "Description": "Манчестер — місто з багатою індустріальною історією, відоме футбольними клубами Manchester United та Manchester City, а також музичною сценою.",
+        "CountryCode": "UK"
+    },
+    {
+        "Name": "Birmingham",
+        "Slug": "birmingham",
+        "ImageFileName": "birmingham.webp",
+        "Description": "Бірмінгем — друге за величиною місто Великої Британії, важливий промисловий та культурний центр. Має сучасну архітектуру та численні університети.",
+        "CountryCode": "UK"
+    },
+    {
+        "Name": "Sydney",
+        "Slug": "sydney",
+        "ImageFileName": "sydney.webp",
+        "Description": "Сідней — найбільше місто Австралії, відоме своїм Оперним театром та гаванню. Це сучасний мегаполіс із пляжами, парками та багатокультурним населенням.",
+        "CountryCode": "AU"
+    },
+    {
+        "Name": "Melbourne",
+        "Slug": "melbourne",
+        "ImageFileName": "melbourne.webp",
+        "Description": "Мельбурн — культурна столиця Австралії, відома мистецтвом, музикою та гастрономією. Тут проводяться численні спортивні події та фестивалі.",
+        "CountryCode": "AU"
+    },
+    {
+        "Name": "Brisbane",
+        "Slug": "brisbane",
+        "ImageFileName": "brisbane.webp",
+        "Description": "Брісбен — велике місто на сході Австралії, розташоване на річці Брисбен. Відоме теплим кліматом, сучасною архітектурою та активним культурним життям.",
+        "CountryCode": "AU"
+    },
+    {
+        "Name": "Kyiv",
+        "Slug": "kyiv",
+        "ImageFileName": "kyiv.webp",
+        "Description": "Київ — столиця України, одне з найстаріших міст Європи. Відомий своєю історією, Софійським собором, Києво-Печерською лаврою та сучасним динамічним розвитком.",
+        "CountryCode": "UA"
+    },
+    {
+        "Name": "Lviv",
+        "Slug": "lviv",
+        "ImageFileName": "lviv.webp",
+        "Description": "Львів — культурна столиця України, відома своєю архітектурою, кавовою культурою та атмосферою старого міста. Входить до списку ЮНЕСКО.",
+        "CountryCode": "UA"
+    },
+    {
+        "Name": "Odesa",
+        "Slug": "odesa",
+        "ImageFileName": "odesa.webp",
+        "Description": "Одеса — портове місто на Чорному морі, відоме своєю архітектурою, гумором та знаменитими Потьомкінськими сходами.",
+        "CountryId": "UA"
+    },
+    {
+        "Name": "Berlin",
+        "Slug": "berlin",
+        "ImageFileName": "berlin.webp",
+        "Description": "Берлін — столиця Німеччини, сучасне місто з багатою історією. Відоме Бранденбурзькими воротами, музеями та культурним різноманіттям.",
+        "CountryId": "DE"
+    },
+    {
+        "Name": "Munich",
+        "Slug": "munich",
+        "ImageFileName": "munich.webp",
+        "Description": "Мюнхен — місто в Баварії, відоме фестивалем Октоберфест, історичною архітектурою та сучасними технологіями.",
+        "CountryId": "DE"
+    },
+    {
+        "Name": "Hamburg",
+        "Slug": "hamburg",
+        "ImageFileName": "hamburg.webp",
+        "Description": "Гамбург — велике портове місто на півночі Німеччини, відоме своєю гаванню, театрами та музичною сценою.",
+        "CountryId": "DE"
+    },
+    {
+        "Name": "Frankfurt",
+        "Slug": "frankfurt",
+        "ImageFileName": "frankfurt.webp",
+        "Description": "Франкфурт-на-Майні — фінансовий центр Німеччини, відомий сучасними хмарочосами, банками та міжнародними виставками.",
+        "CountryId": "DE"
+    }
+]

@@ -1,0 +1,32 @@
+﻿[
+    {
+        "UserName": "admin@gmail.com",
+        "Email": "admin@gmail.com",
+        "Password": "Admin123",
+        "FirstName": "Admin",
+        "LastName": "",
+        "PhoneNumber": "+380675839288",
+        "Image": "admin.webp",
+        "Role": "Admin"
+    },
+    {
+        "UserName": "bobr@gmail.com",
+        "Email": "bobr@gmail.com",
+        "Password": "123456",
+        "FirstName": "Bober",
+        "LastName": "Bobrovich",
+        "PhoneNumber": "+3809578364152",
+        "Image": "bobr.webp",
+        "Role": "User"
+    },
+    {
+        "UserName": "siuzanna@gmail.com",
+        "Email": "siuzanna@gmail.com",
+        "Password": "123456",
+        "FirstName": "Siuzanna",
+        "LastName": "Tararuk",
+        "PhoneNumber": "+380660467433",
+        "Image": "default.webp",
+        "Role": "User"
+    }
+]

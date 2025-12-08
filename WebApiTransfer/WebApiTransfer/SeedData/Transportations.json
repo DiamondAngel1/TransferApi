@@ -1,0 +1,102 @@
+﻿[
+    {
+        "Code": "PS101",
+        "FromCitySlug": "new-york",
+        "ToCitySlug": "los-angeles",
+        "DepartureTime": "2025-12-10T08:00:00",
+        "ArrivalTime": "2025-12-10T12:00:00",
+        "SeatsTotal": 100,
+        "SeatsAvailable": 50,
+        "StatusName": "Запланований"
+    },
+    {
+        "Code": "PS102",
+        "FromCitySlug": "chicago",
+        "ToCitySlug": "toronto",
+        "DepartureTime": "2025-12-12T09:30:00",
+        "ArrivalTime": "2025-12-12T13:45:00",
+        "SeatsTotal": 120,
+        "SeatsAvailable": 80,
+        "StatusName": "Запланований"
+    },
+    {
+        "Code": "PS103",
+        "FromCitySlug": "vancouver",
+        "ToCitySlug": "montreal",
+        "DepartureTime": "2025-12-15T07:00:00",
+        "ArrivalTime": "2025-12-15T11:00:00",
+        "SeatsTotal": 90,
+        "SeatsAvailable": 20,
+        "StatusName": "Затримується"
+    },
+    {
+        "Code": "PS104",
+        "FromCitySlug": "london",
+        "ToCitySlug": "manchester",
+        "DepartureTime": "2025-12-18T14:00:00",
+        "ArrivalTime": "2025-12-18T16:00:00",
+        "SeatsTotal": 150,
+        "SeatsAvailable": 100,
+        "StatusName": "Запланований"
+    },
+    {
+        "Code": "PS105",
+        "FromCitySlug": "birmingham",
+        "ToCitySlug": "kyiv",
+        "DepartureTime": "2025-12-20T06:00:00",
+        "ArrivalTime": "2025-12-20T10:30:00",
+        "SeatsTotal": 110,
+        "SeatsAvailable": 0,
+        "StatusName": "Немає місць"
+    },
+    {
+        "Code": "PS106",
+        "FromCitySlug": "lviv",
+        "ToCitySlug": "odesa",
+        "DepartureTime": "2025-12-22T12:00:00",
+        "ArrivalTime": "2025-12-22T14:00:00",
+        "SeatsTotal": 80,
+        "SeatsAvailable": 40,
+        "StatusName": "Запланований"
+    },
+    {
+        "Code": "PS107",
+        "FromCitySlug": "berlin",
+        "ToCitySlug": "munich",
+        "DepartureTime": "2025-12-24T09:00:00",
+        "ArrivalTime": "2025-12-24T11:00:00",
+        "SeatsTotal": 200,
+        "SeatsAvailable": 150,
+        "StatusName": "Запланований"
+    },
+    {
+        "Code": "PS108",
+        "FromCitySlug": "hamburg",
+        "ToCitySlug": "frankfurt",
+        "DepartureTime": "2025-12-26T15:00:00",
+        "ArrivalTime": "2025-12-26T17:30:00",
+        "SeatsTotal": 95,
+        "SeatsAvailable": 60,
+        "StatusName": "Затримується"
+    },
+    {
+        "Code": "PS109",
+        "FromCitySlug": "frankfurt",
+        "ToCitySlug": "melbourne",
+        "DepartureTime": "2025-12-28T20:00:00",
+        "ArrivalTime": "2025-12-29T06:00:00",
+        "SeatsTotal": 130,
+        "SeatsAvailable": 70,
+        "StatusName": "Запланований"
+    },
+    {
+        "Code": "PS110",
+        "FromCitySlug": "brisbane",
+        "ToCitySlug": "sydney",
+        "DepartureTime": "2026-01-02T05:00:00",
+        "ArrivalTime": "2026-01-02T09:00:00",
+        "SeatsTotal": 140,
+        "SeatsAvailable": 90,
+        "StatusName": "Запланований"
+    }
+]
