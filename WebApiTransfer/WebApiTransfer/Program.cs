@@ -141,6 +141,7 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbTransferContext>();
     var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+    context.Database.Migrate();
     var roles = new[] { "Admin", "User" };
     var roleManager = scope.ServiceProvider
         .GetRequiredService<RoleManager<RoleEntity>>();

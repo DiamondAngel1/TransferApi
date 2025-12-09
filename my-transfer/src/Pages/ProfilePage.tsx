@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import type {IUserProfile} from "../Interfaces/user/IUserProfile.ts";
+import APP_ENV from "../env";
 
 function ProfilePage() {
     const [user, setUser] = useState<IUserProfile | null>(null);
@@ -11,7 +12,7 @@ function ProfilePage() {
             try {
                 const token = localStorage.getItem("token");
                 const response = await axios.get<IUserProfile>(
-                    "http://localhost:5149/api/Account/me",
+                    `${APP_ENV.API_BASE_URL}/api/Account/me`,
                     {
                         headers:{
                             Authorization: `Bearer ${token}`,
@@ -38,7 +39,7 @@ if (!user) {
         <div className={"justify-items-center"} style={{ maxWidth: "400px", margin: "0 auto", textAlign: "center" }}>
             <h2>Профіль користувача</h2>
             <img
-                src={`http://localhost:5149/Images/${user.image}`}
+                src={`${APP_ENV.API_BASE_URL}/Images/${user.image}`}
                 alt="User avatar"
                 style={{ width: "150px", borderRadius: "50%" }}
             />

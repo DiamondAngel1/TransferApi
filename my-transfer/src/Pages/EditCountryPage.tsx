@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import APP_ENV from "../env";
 
 function EditCountry() {
     const { id } = useParams<{ id: string }>();
@@ -38,7 +39,7 @@ function EditCountry() {
                 formData.append("Image", image);
             }
 
-            await axios.put(`http://localhost:5149/api/Countries/edit`, formData, {
+            await axios.put(`${APP_ENV.API_BASE_URL}/api/Countries/edit`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             navigate("/");

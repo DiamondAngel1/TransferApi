@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import APP_ENV from "../env";
 
 function AddCountry() {
     const [name, setName] = useState("");
@@ -20,7 +21,7 @@ function AddCountry() {
             formData.append("Slug", slug);
             if (image) formData.append("Image", image);
 
-            await axios.post("http://localhost:5149/api/Countries", formData, {
+            await axios.post(`${APP_ENV.API_BASE_URL}/api/Countries`, formData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             navigate("/");
