@@ -15,7 +15,7 @@ function EditCountry() {
     useEffect(() => {
         const fetchCountry = async () => {
             try {
-                const response = await axios.get(`http://localhost:5149/api/Countries/${id}`);
+                const response = await axios.get(`${APP_ENV.API_BASE_URL}/api/Countries/${id}`);
                 const country = response.data;
                 setName(country.name);
                 setCode(country.code);
