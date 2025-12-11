@@ -1,5 +1,6 @@
 using System.Text;
 using Core.Interfaces;
+using Core.MailSernder;
 using Core.Models.Account;
 using Core.Services;
 using Domain;
@@ -73,6 +74,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IGoogleAccountService, GoogleAccountService>();
 
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
@@ -129,13 +132,14 @@ app.UseCors(policy =>
           .AllowAnyMethod()
           .AllowAnyOrigin();
 });
+string dir = Path.Combine(builder.Environment.ContentRootPath, "Public", "Images");
+Directory.CreateDirectory(dir);
 
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "Public", "Images")),
+    FileProvider = new PhysicalFileProvider(dir),
     RequestPath = "/images"
-});
+}); 
 
 using (var scope = app.Services.CreateScope())
 {
@@ -160,6 +164,21 @@ using (var scope = app.Services.CreateScope())
     await TrasportationStatusSeeder.SeedAsync(context, env);
     await TransportationSeeder.SeedAsync(context, env);
     await UserSeeder.SeedAsync(userManager, roleManager, env);
+
+    var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
+    var admins = await userManager.GetUsersInRoleAsync("Admin");
+
+    foreach (var admin in admins)
+    {
+        if (!string.IsNullOrEmpty(admin.Email))
+        {
+            await emailSender.SendEmailAsync(
+                admin.Email,
+                "Сайт успішно запущено",
+                $"<p>Вітаємо, {admin.UserName}! Сайт запустився.</p>"
+            );
+        }
+    }
 }
 
 app.UseSwagger();

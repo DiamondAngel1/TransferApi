@@ -7,6 +7,8 @@ WebTestSecirity/Web.config
 *.user
 *.userosscache
 *.sln.docstates
+appsettings.json
+appsettings.Development.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

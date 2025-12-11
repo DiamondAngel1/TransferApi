@@ -1,11 +1,21 @@
 ﻿[
     {
-        "UserName": "admin@gmail.com",
-        "Email": "admin@gmail.com",
-        "Password": "Admin123",
-        "FirstName": "Admin",
+        "UserName": "user@gmail.com",
+        "Email": "user@gmail.com",
+        "Password": "User123",
+        "FirstName": "User",
         "LastName": "",
         "PhoneNumber": "+380675839288",
+        "Image": "default.webp",
+        "Role": "User"
+    },
+    {
+        "UserName": "siuzannatararuk@gmail.com",
+        "Email": "siuzannatararuk@gmail.com",
+        "Password": "siuzanna123",
+        "FirstName": "Siuzanna",
+        "LastName": "Tararuk",
+        "PhoneNumber": "+380660467433",
         "Image": "admin.webp",
         "Role": "Admin"
     },
@@ -17,16 +27,6 @@
         "LastName": "Bobrovich",
         "PhoneNumber": "+3809578364152",
         "Image": "bobr.webp",
-        "Role": "User"
-    },
-    {
-        "UserName": "siuzanna@gmail.com",
-        "Email": "siuzanna@gmail.com",
-        "Password": "123456",
-        "FirstName": "Siuzanna",
-        "LastName": "Tararuk",
-        "PhoneNumber": "+380660467433",
-        "Image": "default.webp",
         "Role": "User"
     }
 ]
