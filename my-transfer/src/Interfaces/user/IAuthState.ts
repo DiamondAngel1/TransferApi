@@ -1,3 +1,5 @@
+import type {IUserTokenInfo} from "./IUserTokenInfo.ts";
+
 export interface IAuthState {
-    token: string | null;
+    user: IUserTokenInfo|null;
 }

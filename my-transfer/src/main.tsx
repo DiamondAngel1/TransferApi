@@ -14,9 +14,11 @@ import LoginPage from "./Pages/LoginPage.tsx";
 import ProfilePage from "./Pages/ProfilePage.tsx";
 import RegisterPage from "./Pages/RegisterPage.tsx";
 import { Provider } from "react-redux";
-import {store} from "./app/store.ts";
+import {setupStore} from "./app/store.ts";
+import Admin from "./Pages/Admin.tsx";
 
 const queryClient = new QueryClient();
+const store = setupStore()
 
 createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
@@ -34,6 +36,7 @@ createRoot(document.getElementById("root")!).render(
                 <Route path="/login" element={<LoginPage />}></Route>
                 <Route path="/register" element={<RegisterPage />}></Route>
                 <Route path="/profile" element={<ProfilePage />}></Route>
+                <Route path="/admin-panel" element={<Admin />}></Route>
             </Routes>
         </BrowserRouter>
         </QueryClientProvider>

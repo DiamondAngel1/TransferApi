@@ -3,6 +3,8 @@ import axios from "axios";
 import type {ICity} from "../Interfaces/City/ICity.ts";
 import { useNavigate } from "react-router-dom";
 import APP_ENV from "../env";
+import RedirectBtn from "../Components/RedirectBtn.tsx";
+import {useAppSelector} from "../app/store.ts";
 
 function CitiesPage() {
     const [pages, setPages] = useState<ICity[]>([]);
@@ -28,9 +30,16 @@ function CitiesPage() {
             console.error("Помилка при видаленні міста:", error);
         }
     };
+    const user =
+        useAppSelector(redux => redux.auth.user);
 
     return (
         <div className="p-10 bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
+            {user!=null && user.roles == "Admin" ? (
+                <RedirectBtn/>
+            ):(
+                <></>
+            )}
             <div className="flex justify-center mb-6">
                 <button
                     onClick={() => navigate("/add-cities")}

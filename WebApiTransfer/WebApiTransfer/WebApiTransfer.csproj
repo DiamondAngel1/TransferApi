@@ -28,10 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Update="Images\admin.webp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="SeedData\Images\admin.webp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

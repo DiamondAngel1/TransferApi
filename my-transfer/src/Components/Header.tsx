@@ -1,13 +1,16 @@
 import {Link, useNavigate} from "react-router-dom";
 import {logout} from "../Features/auth/authSlice.ts";
-import type {AppDispatch, RootState} from "../app/store.ts";
-import {useDispatch, useSelector} from "react-redux";
+import {useAppSelector} from "../app/store.ts";
+import {useDispatch} from "react-redux";
+import APP_ENV from "../env";
 
 function Header() {
-    const token = useSelector((state: RootState) => state.auth.token);
-    const dispatch = useDispatch<AppDispatch>();
+    // const token = useSelector((state: RootState) => state.auth.token);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const user =
+        useAppSelector(redux => redux.auth.user);
+    console.log(user)
     const handleLogout = () => {
         dispatch(logout());
         navigate("/login");
@@ -29,13 +32,15 @@ function Header() {
                     >
                         Міста
                     </Link>
-                    {token ? (
+                    {user!=null ? (
                         <>
-                            <Link
-                                to="/profile"
-                                className="hover:text-gray-200 transition font-medium"
-                            >
-                                Профіль
+                            <Link to="/user/Profile"
+                                  className="hover:underline flex items-center h-full">
+                                <div className="flex items-center justify-end gap-4">
+                                    <img src={`${APP_ENV.API_BASE_URL}/images/${user ? user.image : "default.png"}`} alt="logo"
+                                         className={"rounded-full w-8 h-8"}/>
+                                    <h1 className={"text-xl"}>{`${user?.firstName} ${user?.lastName}`}</h1>
+                                </div>
                             </Link>
                             <button
                                 onClick={handleLogout}

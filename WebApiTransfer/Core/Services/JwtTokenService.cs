@@ -24,7 +24,8 @@ namespace Core.Services
             {
                 new Claim("email", user.Email ?? ""),
                 new Claim("firstName", user.FirstName ?? ""),
-                new Claim("lastName", user.LastName ?? "")
+                new Claim("lastName", user.LastName ?? ""),
+                new Claim("image", $"{user.Image ?? "default.jpg"}" )
             };
             foreach (var role in await userManager.GetRolesAsync(user))
             {

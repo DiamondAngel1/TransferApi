@@ -3,12 +3,14 @@ import {GoogleOAuthProvider, GoogleLogin, type CredentialResponse} from "@react-
 import APP_ENV from "../env";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import type {AppDispatch} from "../app/store.ts";
 import {login} from "../Features/auth/authSlice.ts";
+import { jwtDecode } from 'jwt-decode';
+import type {IUserTokenInfo} from "../Interfaces/user/IUserTokenInfo.ts";
+import {useAppDispatch} from "../app/store.ts";
+
 
 function LoginPage() {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<Record<string, string[]>>({});
@@ -21,6 +23,9 @@ function LoginPage() {
                 email,
                 password
             });
+            const {token} = res.data;
+            const decode = jwtDecode<IUserTokenInfo>(token);
+            console.log(decode);
             dispatch(login(res.data.token));
             navigate("/profile");
         }

@@ -16,7 +16,6 @@ function AddCities() {
     const [errors, setErrors] = useState<{ [key: string]: string[] }>({});
     const [showEditor, setShowEditor] = useState(false);
     const navigate = useNavigate();
-
     useEffect(() => {
         const fetchCountries = async () => {
             try {

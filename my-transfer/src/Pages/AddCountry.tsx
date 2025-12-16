@@ -37,14 +37,7 @@ function AddCountry() {
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100 flex-col">
-            <div className="flex justify-center mb-6">
-                <button
-                    onClick={() => navigate("/")}
-                    className="px-6 py-2 rounded-lg bg-green-600 text-white font-semibold shadow hover:bg-green-700 transition"
-                >
-                    Повернутись назад
-                </button>
-            </div>
+
 
             <form
                 onSubmit={handleSubmit}

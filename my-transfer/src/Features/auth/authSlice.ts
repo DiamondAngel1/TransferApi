@@ -1,21 +1,40 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type {IAuthState} from "../../Interfaces/user/IAuthState.ts";
+import {jwtDecode} from "jwt-decode";
+import type {IUserTokenInfo} from "../../Interfaces/user/IUserTokenInfo.ts";
 
+const getUserFromToken = (token: string) : IUserTokenInfo | null  => {
+    try {
+        const decode = jwtDecode<IUserTokenInfo>(token);
+        console.log("decoded text",decode);
+        return decode ?? null;
+    }
+    catch (err) {
+        console.error("Invalid token", err);
+        return null;
+    }
+}
+const token = localStorage.token;
+const user = getUserFromToken(token);
 
 const initialState: IAuthState = {
-    token: localStorage.getItem("token"),
+    user: user
 };
 
 const authSlice = createSlice({
     name: "auth",
-    initialState,
+    initialState: initialState,
     reducers: {
         login: (state, action: PayloadAction<string>) => {
-            state.token = action.payload;
-            localStorage.setItem("token", action.payload);
+            const user = getUserFromToken(action.payload);
+            if(user){
+                state.user = user;
+                localStorage.setItem("token", action.payload);
+            }
+
         },
         logout: (state) => {
-            state.token = null;
+            state.user = null;
             localStorage.removeItem("token");
         },
     },
