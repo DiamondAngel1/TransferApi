@@ -36,18 +36,13 @@ function CitiesPage() {
     return (
         <div className="p-10 bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
             {user!=null && user.roles == "Admin" ? (
-                <RedirectBtn/>
+                <>
+                    <RedirectBtn/>
+                </>
             ):(
                 <></>
             )}
-            <div className="flex justify-center mb-6">
-                <button
-                    onClick={() => navigate("/add-cities")}
-                    className="px-6 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition"
-                >
-                    Додати місто
-                </button>
-            </div>
+
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
                 {pages.map(city => (
@@ -70,13 +65,18 @@ function CitiesPage() {
                         <div className="p-6 text-center">
                             <p className="text-sm text-gray-600 mb-1">Країна: <span className="font-semibold">{city.country}</span></p>
                             <p className="text-sm text-gray-600 mb-4">Slug: <span className="font-semibold">{city.slug}</span></p>
-                            <button
-                                type="button"
-                                onClick={() => deleteCity(city.id)}
-                                className="mt-2 px-5 py-2 text-sm font-semibold rounded-lg bg-red-600 hover:bg-red-700 cursor-pointer text-white  transition-colors shadow-md"
-                            >
-                                Delete
-                            </button>
+                            {user!=null && user.roles == "Admin" ? (
+                                <button
+                                    type="button"
+                                    onClick={() => deleteCity(city.id)}
+                                    className="mt-2 px-5 py-2 text-sm font-semibold rounded-lg bg-red-600 hover:bg-red-700 cursor-pointer text-white  transition-colors shadow-md"
+                                >
+                                    Delete
+                                </button>
+                                ):(
+                                <></>
+                                )}
+
 
                             <button
                                 type="button"

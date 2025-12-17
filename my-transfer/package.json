@@ -21,6 +21,7 @@
     "object-to-formdata": "^4.5.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-helmet-async": "^2.0.5",
     "react-is": "^19.2.3",
     "react-quill-new": "^3.6.0",
     "react-redux": "^9.2.0",

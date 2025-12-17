@@ -35,18 +35,13 @@ function HomePage() {
     return (
         <div className="p-10 bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
             {user!=null && user.roles == "Admin" ? (
-                <RedirectBtn/>
+                <>
+                    <RedirectBtn/>
+                </>
             ):(
                 <></>
             )}
-            <div className="flex justify-center mb-6">
-                <button
-                    onClick={() => navigate("/add-country")}
-                    className="px-6 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition"
-                >
-                    Додати країну
-                </button>
-            </div>
+
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
             {countries.map(country => (
@@ -69,21 +64,28 @@ function HomePage() {
                     <div className="p-6 text-center">
                         <p className="text-sm text-gray-600 mb-1">Код: <span className="font-semibold">{country.code}</span></p>
                         <p className="text-sm text-gray-600 mb-4">Slug: <span className="font-semibold">{country.slug}</span></p>
-                        <button
-                            type="button"
-                            onClick={() => deleteCountry(country.id)}
-                            className="mt-2 px-5 py-2 text-sm font-semibold rounded-lg bg-red-600 hover:bg-red-700 cursor-pointer text-white  transition-colors shadow-md"
-                        >
-                            Delete
-                        </button>
+                        {user!=null && user.roles == "Admin" ? (
+                            <>
+                                <button
+                                    type="button"
+                                    onClick={() => deleteCountry(country.id)}
+                                    className="mt-2 px-5 py-2 text-sm font-semibold rounded-lg bg-red-600 hover:bg-red-700 cursor-pointer text-white  transition-colors shadow-md"
+                                >
+                                    Delete
+                                </button>
 
-                        <button
-                            type="button"
-                            onClick={() => navigate(`/edit-country/${country.id}`)}
-                            className="mt-2 ml-2 px-5 py-2 text-sm font-semibold rounded-lg bg-amber-300 hover:bg-amber-400 cursor-pointer text-black transition-colors shadow-md"
-                        >
-                            Edit
-                        </button>
+                                <button
+                                    type="button"
+                                    onClick={() => navigate(`/edit-country/${country.id}`)}
+                                    className="mt-2 ml-2 px-5 py-2 text-sm font-semibold rounded-lg bg-amber-300 hover:bg-amber-400 cursor-pointer text-black transition-colors shadow-md"
+                                >
+                                    Edit
+                                </button>
+                            </>
+                        ):(
+                            <></>
+                        )}
+
                     </div>
                 </div>
             ))}

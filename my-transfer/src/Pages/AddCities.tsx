@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import APP_ENV from "../env";
 import {Editor} from "@tinymce/tinymce-react";
 import type {ICityCreate} from "../Interfaces/City/ICityCreate.ts";
+import {useAppSelector} from "../app/store.ts";
 
 function AddCities() {
-
     const [name, setName] = useState("");
     const [slug, setSlug] = useState("");
     const [description, setDescription] = useState<string>("");
@@ -16,6 +16,7 @@ function AddCities() {
     const [errors, setErrors] = useState<{ [key: string]: string[] }>({});
     const [showEditor, setShowEditor] = useState(false);
     const navigate = useNavigate();
+
     useEffect(() => {
         const fetchCountries = async () => {
             try {
@@ -27,7 +28,15 @@ function AddCities() {
         };
         fetchCountries();
     }, []);
+    const user =
+        useAppSelector(redux => redux.auth.user);
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
 
+    if (!user.roles?.includes("Admin")) {
+        return <Navigate to="/" replace />;
+    }
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 

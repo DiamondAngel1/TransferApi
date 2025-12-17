@@ -5,6 +5,9 @@ import type {IUserTokenInfo} from "../../Interfaces/user/IUserTokenInfo.ts";
 
 const getUserFromToken = (token: string) : IUserTokenInfo | null  => {
     try {
+        if (!token) {
+            return null;
+        }
         const decode = jwtDecode<IUserTokenInfo>(token);
         console.log("decoded text",decode);
         return decode ?? null;

@@ -1,11 +1,10 @@
-import {Bell, ChevronDown, Filter, Menu, Plus, Search, Settings, Sun} from "lucide-react";
-import {useAppSelector} from "../../app/store.ts";
-import APP_ENV from "../../env";
+import {Bell, Filter, Menu, Plus, Search, Settings} from "lucide-react";
 import type {HeaderAdminProps} from "../../Interfaces/props/HeaderAdminProps.ts";
+import UserDropdown from "./UserDropdown.tsx";
+import {ThemeToggleButton} from "../Components/common/ThemeToggleButton.tsx";
 
 function HeaderAdmin({onToggleSidebar}:HeaderAdminProps) {
-    const user =
-        useAppSelector(redux => redux.auth.user);
+
     return (
         <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b
         border-slate-200/50 dark:border-slate-700/50 px-6 py-4">
@@ -46,10 +45,7 @@ function HeaderAdmin({onToggleSidebar}:HeaderAdminProps) {
                         <Plus className="w-4 h-4" />
                         <span className="text-sm font-medium">New</span>
                     </button>
-                    <button className="p-2.5 rounded-xl text-slate-600 dark:text-slate-300
-                    hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                        <Sun className="w-5 h-5" />
-                    </button>
+                    <ThemeToggleButton/>
 
                     <button className="relative p-2.5 rounded text-slate-600 dark:text-slate-300
                         hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
@@ -64,24 +60,8 @@ function HeaderAdmin({onToggleSidebar}:HeaderAdminProps) {
                         hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                         <Settings className="w-5 h-5" />
                     </button>
+                    <UserDropdown />
 
-                    <div className="flex items-center space-x-3 pl-3 border-l border-slate-200
-                    dark:border-slate-700">
-                        <img
-                            src={`${APP_ENV.API_BASE_URL}/images/${user ? user.image : "default.png"}`}
-                            alt="User"
-                            className="w-8 h-8 rounded-full ring-2 ring-blue-500"
-                        />
-                        <div className="hidden md:block">
-                            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                                {user?.firstName} {user?.lastName}
-                            </p>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">
-                                {Array.isArray(user?.roles) ? user.roles.join(", ") : user?.roles}
-                            </p>
-                        </div>
-                        <ChevronDown className="w-4 h-4 text-slate-400 dark:text-slate-400" />
-                    </div>
                 </div>
             </div>
         </div>

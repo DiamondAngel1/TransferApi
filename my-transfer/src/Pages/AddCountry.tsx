@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import APP_ENV from "../env";
+import {useAppSelector} from "../app/store.ts";
 
 function AddCountry() {
     const [name, setName] = useState("");
@@ -11,6 +12,15 @@ function AddCountry() {
     const [errors, setErrors] = useState<{ [key: string]: string[] }>({});
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
+    const user =
+        useAppSelector(redux => redux.auth.user);
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
+
+    if (!user.roles?.includes("Admin")) {
+        return <Navigate to="/" replace />;
+    }
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
