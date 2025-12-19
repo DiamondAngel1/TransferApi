@@ -58,7 +58,7 @@ function AddCities() {
             await axios.post(`${APP_ENV.API_BASE_URL}/api/Cities`, model, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            navigate("/cities");
+            navigate(-1);
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data?.errors) {
                 setErrors(err.response.data.errors);
@@ -69,21 +69,13 @@ function AddCities() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 flex-col p-6">
-            <div className="flex justify-center mb-6">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="px-6 py-2 rounded-lg bg-green-600 text-white font-semibold shadow hover:bg-green-700 transition"
-                >
-                    Повернутись назад
-                </button>
-            </div>
-
+        <div className="flex justify-center items-center min-h-screen bg-transparent flex-col p-6">
             <form
                 onSubmit={handleSubmit}
-                className="bg-white shadow-lg rounded-xl p-8 w-full max-w-xl border border-gray-200"
+                className="bg-white dark:bg-slate-900 shadow-lg rounded-xl p-8 w-full max-w-xl
+                 border border-gray-200 dark:border-slate-700"
             >
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
                     Додати місто
                 </h2>
 
@@ -94,14 +86,14 @@ function AddCities() {
 
 
                 <div className="mb-5">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Назва
                     </label>
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Name && <p className="text-red-600 text-sm">{errors.Name[0]}</p>}
                 </div>
@@ -114,23 +106,26 @@ function AddCities() {
                         type="text"
                         value={slug}
                         onChange={(e) => setSlug(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Slug && <p className="text-red-600 text-sm">{errors.Slug[0]}</p>}
                 </div>
 
                 <div className="mb-5">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Опис
                     </label>
                     <div
                         onClick={() => setShowEditor(true)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 bg-gray-50 cursor-pointer"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 bg-gray-50 dark:bg-slate-800 cursor-pointer"
                     >
                         {description ? (
-                            <div dangerouslySetInnerHTML={{ __html: description }} />
+                            <div
+                                className="prose dark:prose-invert max-w-none"
+                                dangerouslySetInnerHTML={{ __html: description }}
+                            />
                         ) : (
-                            <span className="text-gray-400">Натисніть, щоб додати опис...</span>
+                            <span className="text-gray-400 dark:text-slate-500">Натисніть, щоб додати опис...</span>
                         )}
                     </div>
                     {errors.Description && (
@@ -145,7 +140,7 @@ function AddCities() {
                     <select
                         value={countryId}
                         onChange={(e) => setCountryId(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     >
                         <option value="">-- Оберіть країну --</option>
                         {countries.map((c) => (
@@ -177,7 +172,7 @@ function AddCities() {
                                 }
                             }
                         }}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Image && <p className="text-red-600 text-sm">{errors.Image[0]}</p>}
                 </div>
@@ -190,8 +185,8 @@ function AddCities() {
                 </button>
             </form>
             {showEditor && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg shadow-lg w-full max-w-3xl p-6">
+                <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center z-50">
+                    <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg w-full max-w-3xl p-6 border border-gray-200 dark:border-slate-700">
                         <Editor
                             apiKey='0xky1zwyw6l6500xb89qg355iwjolt8lpsq5kx8it0rl3c71'
                             value={description}
@@ -208,12 +203,14 @@ function AddCities() {
                                     "undo redo | formatselect | bold italic backcolor |\
                                     alignleft aligncenter alignright alignjustify | \
                                     bullist numlist outdent indent | removeformat | image",
+                                skin: document.documentElement.classList.contains("dark")?"oxide-dark" : "oxide",
+                                content_css: document.documentElement.classList.contains("dark")?"dark":"default"
                             }}
                         />
                         <div className="flex justify-end mt-4">
                             <button
                                 onClick={() => setShowEditor(false)}
-                                className="px-6 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition"
+                                className="px-6 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition dark:bg-green-700 dark:hover:bg-green-800"
                             >
                                 Зберегти опис
                             </button>

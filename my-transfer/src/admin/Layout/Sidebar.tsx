@@ -2,7 +2,7 @@ import {Zap, LayoutDashboard, Users, FileText, Settings, ChevronDown, Package, B
 import {useAppSelector} from "../../app/store.ts";
 import APP_ENV from "../../env";
 import {useState} from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import type {SidebarProps} from "../../Interfaces/props/SidebarProps.ts";
 const menuItems = [
     {
@@ -59,11 +59,12 @@ const menuItems = [
     }
 ]
 
-function Sidebar({collapsed,currentPage,onPageChange}:SidebarProps) {
+function Sidebar({collapsed}:SidebarProps) {
     const user =
         useAppSelector(redux => redux.auth.user);
     const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
     const location = useLocation();
+    const navigate = useNavigate();
     const toggleExpended = (itemId: string)=>{
         const newExpanded = new Set(expandedItems);
         if(newExpanded.has(itemId)){
@@ -75,7 +76,7 @@ function Sidebar({collapsed,currentPage,onPageChange}:SidebarProps) {
         setExpandedItems(newExpanded);
     };
     const isActive = (id: string) =>
-        currentPage === id || location.pathname.includes(id);
+        location.pathname.includes(id);
 
     return (
         <div className={`${
@@ -115,7 +116,7 @@ function Sidebar({collapsed,currentPage,onPageChange}:SidebarProps) {
                                 if (item.submenu) {
                                     toggleExpended(item.id);
                                 } else {
-                                    onPageChange(item.id);
+                                    navigate(`/admin-panel/${item.id}`);
                                 }
                             }}
                         >
@@ -165,7 +166,7 @@ function Sidebar({collapsed,currentPage,onPageChange}:SidebarProps) {
                                                 ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white"
                                                 : "text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50"
                                         }`}
-                                        onClick={() => onPageChange(subItem.id)}
+                                        onClick={() => navigate(`/admin-panel/${subItem.id}`)}
                                     >
                                         {subItem.label}
                                     </button>

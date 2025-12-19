@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace WebApiTransfer.Controllers
@@ -101,6 +102,50 @@ namespace WebApiTransfer.Controllers
         {
             var model = await accountService.GetUserProfileAsync();
             return Ok(model);
+        }
+
+        [HttpPost("forgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
+        {
+            var result = await accountService.ForgotPasswordAsync(model);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(new
+                {
+                    status = 400,
+                    IsValid = false,
+                    errors = new
+                    {
+                        Email = new[] { "Email not found" }
+                    }
+                });
+            }
+        }
+
+        [HttpPost("resetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel model)
+        {
+            var result = await accountService.ResetPasswordAsync(model);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(new
+                {
+                    status = 400,
+                    IsValid = false,
+                    errors = new
+                    {
+                        Token = new[] { "Invalid token or email" }
+                    }
+                });
+            }
         }
     }
 }

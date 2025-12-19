@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {type FormEvent, useState} from "react";
 import axios from "axios";
 import {Navigate, useNavigate} from "react-router-dom";
 import APP_ENV from "../env";
@@ -21,7 +21,7 @@ function AddCountry() {
     if (!user.roles?.includes("Admin")) {
         return <Navigate to="/" replace />;
     }
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         try {
@@ -34,7 +34,7 @@ function AddCountry() {
             await axios.post(`${APP_ENV.API_BASE_URL}/api/Countries`, formData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            navigate("/");
+            navigate(-1);
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data?.errors) {
                 setErrors(err.response.data.errors);
@@ -46,14 +46,13 @@ function AddCountry() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 flex-col">
-
-
+        <div className="flex justify-center items-center min-h-screen bg-transparent flex-col">
             <form
                 onSubmit={handleSubmit}
-                className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md border border-gray-200"
+                className="bg-white dark:bg-slate-900 shadow-lg rounded-xl p-8 w-full max-w-md
+                           border border-gray-200 dark:border-slate-700"
             >
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
                     Додати країну
                 </h2>
 
@@ -62,46 +61,46 @@ function AddCountry() {
                 )}
 
                 <div className="mb-5">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Назва
                     </label>
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Name && <p className="text-red-600 text-sm">{errors.Name[0]}</p>}
                 </div>
 
                 <div className="mb-5">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Код
                     </label>
                     <input
                         type="text"
                         value={code}
                         onChange={(e) => setCode(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Code && <p className="text-red-600 text-sm">{errors.Code[0]}</p>}
                 </div>
 
                 <div className="mb-5">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Slug
                     </label>
                     <input
                         type="text"
                         value={slug}
                         onChange={(e) => setSlug(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Slug && <p className="text-red-600 text-sm">{errors.Slug[0]}</p>}
                 </div>
 
                 <div className="mb-8">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Зображення
                     </label>
                     <input
@@ -120,7 +119,7 @@ function AddCountry() {
                                 }
                             }
                         }}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Image && <p className="text-red-600 text-sm">{errors.Image[0]}</p>}
                 </div>

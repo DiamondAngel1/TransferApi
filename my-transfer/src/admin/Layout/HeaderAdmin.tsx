@@ -4,10 +4,9 @@ import UserDropdown from "./UserDropdown.tsx";
 import {ThemeToggleButton} from "../Components/common/ThemeToggleButton.tsx";
 
 function HeaderAdmin({onToggleSidebar}:HeaderAdminProps) {
-
     return (
         <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b
-        border-slate-200/50 dark:border-slate-700/50 px-6 py-4">
+        border-slate-200/50 dark:border-slate-700/50 px-6 py-4 z-50">
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                     <button className="p-2 rounded-lg text-slate-600 dark:text-slate-300

@@ -2,7 +2,7 @@ import axios from "axios";
 import {GoogleOAuthProvider, GoogleLogin, type CredentialResponse} from "@react-oauth/google";
 import APP_ENV from "../env";
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {login} from "../Features/auth/authSlice.ts";
 import { jwtDecode } from 'jwt-decode';
 import type {IUserTokenInfo} from "../Interfaces/user/IUserTokenInfo.ts";
@@ -103,6 +103,12 @@ function LoginPage() {
                     >
                         Зберегти
                     </button>
+                    <Link
+                        to="/forgot-password"
+                        className="text-blue-500 hover:text-blue-800 transition font-medium items-center"
+                    >
+                        Забули пароль
+                    </Link>
                 </form>
                 <hr style={{ margin: "20px 0" }} />
 

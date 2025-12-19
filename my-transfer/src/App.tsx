@@ -9,23 +9,36 @@ import CityDescriptionPage from "./Pages/CityDescriptionPage";
 import LoginPage from "./Pages/LoginPage";
 import ProfilePage from "./Pages/ProfilePage";
 import RegisterPage from "./Pages/RegisterPage";
-import Admin from "./Pages/Admin";
 import MainLayout from "./MainLayout.tsx";
+import ForgotPasswordPage from "./Pages/ForgotPasswordPage.tsx";
+import ResetPasswordPage from "./Pages/ResetPasswordPage.tsx";
+import Dashboard from "./admin/Pages/Dashboard/Dashboard.tsx";
+import AppLayout from "./admin/Layout/AppLayout.tsx";
 
 function App() {
     return (
         <Routes>
-            <Route element={<MainLayout />}>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/add-country" element={<AddCountry />} />
-                <Route path="/edit-country/:id" element={<EditCountryPage />} />
+            <Route path="/" element={<MainLayout />}>
+                <Route index element={<HomePage />} />
                 <Route path="/cities" element={<CitiesPage />} />
                 <Route path="/cities/:slug" element={<CityDescriptionPage />} />
-                <Route path="/add-cities" element={<AddCities />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/admin-panel" element={<Admin />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
+
+            </Route>
+            <Route path="/admin-panel" element={<AppLayout/>}>
+                <Route index element={<Dashboard />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="add-country" element={<AddCountry />} />
+                <Route path="cities" element={<CitiesPage />} />
+                <Route path="countries" element={<HomePage />} />
+                <Route path="add-city" element={<AddCities />} />
+                <Route path="cities/:slug" element={<CityDescriptionPage />} />
+                <Route path="edit-country/:id" element={<EditCountryPage />} />
+                <Route path="profile" element={<ProfilePage />} />
             </Route>
         </Routes>
     );

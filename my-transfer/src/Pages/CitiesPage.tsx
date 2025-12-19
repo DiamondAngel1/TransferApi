@@ -34,23 +34,21 @@ function CitiesPage() {
         useAppSelector(redux => redux.auth.user);
 
     return (
-        <div className="p-10 bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
-            {user!=null && user.roles == "Admin" ? (
+        <div className="p-10 bg-transparent min-h-screen">
+            {user!=null && user.roles == "Admin" && (
                 <>
                     <RedirectBtn/>
                 </>
-            ):(
-                <></>
             )}
-
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
                 {pages.map(city => (
                     <div
                         key={city.id}
-                        className="bg-white rounded-2xl shadow-xl overflow-hidden transform transition duration-500 hover:scale-105 hover:shadow-2xl"
+                        className="bg-white/80 dark:bg-slate-900/80 rounded-2xl shadow-xl overflow-hidden transform transition duration-500 hover:scale-105 hover:shadow-2xl
+                                    border border-slate-200/50 dark:border-slate-700/50 hover:shadow-slate-200/20 dark:hover:shadow-slate-900/20"
                     >
-                        <div className="relative h-48 w-full overflow-hidden">
+                        <div className="relative h-48 w-full ">
                             <img
                                 src={`${APP_ENV.API_BASE_URL}/images/${city.image ?? "default.png"}`}
                                 alt={city.name}
@@ -63,8 +61,12 @@ function CitiesPage() {
                         </div>
 
                         <div className="p-6 text-center">
-                            <p className="text-sm text-gray-600 mb-1">Країна: <span className="font-semibold">{city.country}</span></p>
-                            <p className="text-sm text-gray-600 mb-4">Slug: <span className="font-semibold">{city.slug}</span></p>
+                            <p className="text-sm text-gray-600 dark:text-slate-400 mb-1">
+                                Країна:<span className="font-semibold">{city.country}</span>
+                            </p>
+                            <p className="text-sm text-gray-600 dark:text-slate-400 mb-4">
+                                Slug: <span className="font-semibold">{city.slug}</span>
+                            </p>
                             {user!=null && user.roles == "Admin" ? (
                                 <button
                                     type="button"
@@ -80,7 +82,11 @@ function CitiesPage() {
 
                             <button
                                 type="button"
-                                onClick={() => navigate(`/cities/${city.slug}`,{ state: { id: city.id } })}
+                                onClick={() => {
+                                    const basePath = user?.roles?.includes("Admin") ? "/admin-panel" : "";
+
+                                    navigate(`${basePath}/cities/${city.slug}`, {state:{id:city.id}});
+                                }}
                                 className="mt-2 ml-2 px-5 py-2 text-sm font-semibold rounded-lg bg-amber-300 hover:bg-amber-400 cursor-pointer text-black transition-colors shadow-md"
                             >
                                 Description

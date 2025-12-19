@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import {useNavigate, useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 import APP_ENV from "../env";
 import type { ICity } from "../Interfaces/City/ICity.ts";
 
 function CityDescriptionPage() {
     const location = useLocation();
-    const id = location.state?.id;
+    const id = location.state.id
     const navigate = useNavigate();
     const [city, setCity] = useState<ICity | null>(null);
 
@@ -31,10 +31,10 @@ function CityDescriptionPage() {
 
         <div className="min-h-screen p-10 justify-self-center">
             <div
-                className="bg-white rounded-xl shadow-lg max-w-3xl p-6 overflow-hidden"
+                className="bg-white dark:bg-slate-900 rounded-xl shadow-lg max-w-3xl p-6 overflow-hidden"
             >
                 <div
-                    className="prose max-w-none prose-img:rounded-lg prose-img:mx-auto prose-img:max-w-full"
+                    className="prose max-w-none prose-img:rounded-lg prose-img:mx-auto prose-img:max-w-full dark:text-white"
                     dangerouslySetInnerHTML={{ __html: city.description }}
                 />
             </div>

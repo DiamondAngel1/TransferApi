@@ -15,5 +15,7 @@ namespace Core.Interfaces
         Task<string> LoginAsync(LoginModel model);
         Task<UserEntity> GetUserAsync(ClaimsPrincipal principal);
         Task<UserProfileModel> GetUserProfileAsync();
+        public Task<bool> ForgotPasswordAsync(ForgotPasswordModel model);
+        public Task<bool> ResetPasswordAsync(ResetPasswordModel model);
     }
 }

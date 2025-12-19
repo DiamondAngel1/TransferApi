@@ -20,6 +20,7 @@ function EditCountry() {
                 setName(country.name);
                 setCode(country.code);
                 setSlug(country.slug);
+                setImage(country.image);
             } catch {
                 setErrors({ General: ["Помилка при завантаженні країни"] });
             }
@@ -42,7 +43,7 @@ function EditCountry() {
             await axios.put(`${APP_ENV.API_BASE_URL}/api/Countries/edit`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            navigate("/");
+            navigate(-1);
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data?.errors) {
                 setErrors(err.response.data.errors);
@@ -54,10 +55,10 @@ function EditCountry() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 flex-col">
+        <div className="flex justify-center items-center min-h-screen bg-transparent flex-col">
             <div className="flex justify-center mb-6">
                 <button
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate(-1)}
                     className="px-6 py-2 rounded-lg bg-green-600 text-white font-semibold shadow hover:bg-green-700 transition"
                 >
                     Повернутись назад
@@ -66,9 +67,10 @@ function EditCountry() {
 
             <form
                 onSubmit={handleSubmit}
-                className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md border border-gray-200"
+                className="bg-white dark:bg-slate-900 shadow-lg rounded-xl p-8 w-full max-w-md
+                border border-gray-200 dark:border-slate-700"
             >
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
                     Редагувати країну
                 </h2>
 
@@ -77,45 +79,57 @@ function EditCountry() {
                 )}
 
                 <div className="mb-5">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Назва
                     </label>
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Name && <p className="text-red-600 text-sm">{errors.Name[0]}</p>}
                 </div>
 
                 <div className="mb-5">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Код
                     </label>
                     <input
                         type="text"
                         value={code}
                         onChange={(e) => setCode(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Code && <p className="text-red-600 text-sm">{errors.Code[0]}</p>}
                 </div>
 
                 <div className="mb-5">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Slug
                     </label>
                     <input
                         type="text"
                         value={slug}
                         onChange={(e) => setSlug(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                     {errors.Slug && <p className="text-red-600 text-sm">{errors.Slug[0]}</p>}
                 </div>
+                <div className="mb-5 relative">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
+                        Поточне зображення
+                    </label>
+                    <div className={"w-full h-48 border border-gray-300 dark:border-slate-600 rounded-lg overflow-hidden"}>
+                        <img
+                            src={`${APP_ENV.API_BASE_URL}/Images/${image}`}
+                            alt={`${image}`}
+                            className={"w-full h-full object-cover"}
+                        />
+                    </div>
+                </div>
                 <div className="mb-8">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">
                         Зображення (нове, необов'язково)
                     </label>
                     <input
@@ -134,7 +148,7 @@ function EditCountry() {
                                 }
                             }
                         }}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 transition"
+                        className="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-400 focus:border-green-400 dark:bg-slate-800 dark:text-white transition"
                     />
                 </div>
 

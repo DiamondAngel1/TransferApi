@@ -1,19 +1,20 @@
-import Sidebar from "../admin/Layout/Sidebar.tsx";
-import HeaderAdmin from "../admin/Layout/HeaderAdmin.tsx";
+import { Outlet } from "react-router";
+import HeaderAdmin from "./HeaderAdmin.tsx";
 import {useState} from "react";
-import {useAppSelector} from "../app/store.ts";
-import {Navigate, Outlet} from "react-router-dom";
+import {useAppSelector} from "../../app/store.ts";
+import {Navigate} from "react-router-dom";
+import Sidebar from "./Sidebar.tsx";
 
-function Admin() {
+function AppLayout()  {
     const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
     const user =
         useAppSelector(redux => redux.auth.user);
     if (!user) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/login" replace/>;
     }
 
     if (!user.roles?.includes("Admin")) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/" replace/>;
     }
     return (
         <>
@@ -26,11 +27,11 @@ function Admin() {
                     <div className="flex-1 flex flex-col overflow-hidden">
                         <HeaderAdmin
                             sidebarCollapsed={sideBarCollapsed}
-                            onToggleSidebar={()=>setSideBarCollapsed(!sideBarCollapsed)}
+                            onToggleSidebar={() => setSideBarCollapsed(!sideBarCollapsed)}
                         />
                         <main className="flex-1 overflow-y-auto bg-transparent">
                             <div className="p-6 space-y-6">
-                               <Outlet/>
+                                <Outlet/>
                             </div>
                         </main>
                     </div>
@@ -38,6 +39,7 @@ function Admin() {
             </div>
         </>
     );
-}
+};
 
-export default Admin;
+
+export default AppLayout;

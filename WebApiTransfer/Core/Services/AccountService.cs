@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using Domain;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Core.Services
 {
@@ -19,6 +21,8 @@ namespace Core.Services
         RoleManager<RoleEntity> roleManager,
         AppDbTransferContext transferContext,
         IJwtTokenService jwtTokenService,
+        IEmailSender emailSender,
+        IConfiguration configuration,
         IImageService imageService,
         IAuthService authService,
         IMapper mapper) : IAccountService
@@ -78,6 +82,43 @@ namespace Core.Services
                 .ProjectTo<UserProfileModel>(mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync(u => u.Id == userId!);
             return profile!;
+        }
+
+        public async Task<bool> ForgotPasswordAsync(ForgotPasswordModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+
+            if (user == null){
+                return false;
+            }
+
+            string token = await userManager.GeneratePasswordResetTokenAsync(user);
+            var resetLink = $"{configuration["ClientUrl"]}/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(model.Email)}";
+
+            await emailSender.SendEmailAsync(model.Email, "Змінити пароль", $"<p>Click the link below to reset your password:</p><a href='{resetLink}'>Reset Password</a>");
+
+            return true;
+        }
+
+        public async Task<bool> ResetPasswordAsync(ResetPasswordModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                var result = await userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+                if (!result.Succeeded)
+                {
+                    return false;
+                }
+            }
+            var password = model.NewPassword;
+            var confirmPassworsd = model.ConfirmPassword;
+            if (confirmPassworsd != password) {
+
+                return false;
+            }
+            
+            return true;
         }
     }
 }
