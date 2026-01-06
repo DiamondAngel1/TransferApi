@@ -33,7 +33,10 @@ namespace Core.Mappers
             CreateMap<UserEntity, UserProfileModel>()
                 .ForMember(m => m.FullName, opt => opt.MapFrom(u => $"{u.LastName} {u.FirstName}"))
                 .ForMember(m => m.Phone, opt => opt.MapFrom(u => u.PhoneNumber));
-                
+
+            CreateMap<UserEntity, UserItemModel>()
+                .ForMember(m => m.FullName, opt => opt.MapFrom(u => $"{u.LastName} {u.FirstName}"))
+                .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.UserRoles!.Select(ur => ur.Role.Name).ToList()));
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using AutoMapper;
 using Core.Interfaces;
 using Core.Models.Account;
@@ -146,6 +147,21 @@ namespace WebApiTransfer.Controllers
                     }
                 });
             }
+        }
+
+        [HttpGet("Search")]
+        public async Task<IActionResult> SearchUsers([FromQuery] UserSearchModel model)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var result = await accountService.SearchAsync(model);
+            stopwatch.Stop();
+            TimeSpan ts = stopwatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            Console.WriteLine("---------RunTime----------: " + elapsedTime);
+            return Ok(result);
         }
     }
 }

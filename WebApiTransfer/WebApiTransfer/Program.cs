@@ -1,4 +1,5 @@
 using System.Text;
+using Bogus;
 using Core.Interfaces;
 using Core.MailSernder;
 using Core.Models.Account;
@@ -159,26 +160,47 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
+    //await UserSeeder.SeedAsync(userManager, roleManager, env);
+    //int countUsers = 100;
+    //var faker = new Faker("uk");
+    //for (int i = 0; i < countUsers; i++)
+    //{
+    //    var firstName = faker.Name.FirstName();
+    //    var lastName = faker.Name.LastName();
+    //    var email = faker.Internet.Email(firstName, lastName);
+    //    var user = new UserEntity
+    //    {
+    //        UserName = email,
+    //        Email = email,
+    //        FirstName = firstName,
+    //        LastName = lastName,
+    //        Image = "default.webp"
+    //    };
+    //    var userResult = await userManager.CreateAsync(user, "User123");
+    //    if (userResult.Succeeded)
+    //    {
+    //        await userManager.AddToRoleAsync(user, "User");
+    //    }
+    //}
     await CountrySeeder.SeedAsync(context, env);
     await CitySeeder.SeedAsync(context, env);
     await TrasportationStatusSeeder.SeedAsync(context, env);
     await TransportationSeeder.SeedAsync(context, env);
-    await UserSeeder.SeedAsync(userManager, roleManager, env);
 
-    var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
-    var admins = await userManager.GetUsersInRoleAsync("Admin");
+    //var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
+    //var admins = await userManager.GetUsersInRoleAsync("Admin");
 
-    foreach (var admin in admins)
-    {
-        if (!string.IsNullOrEmpty(admin.Email))
-        {
-            await emailSender.SendEmailAsync(
-                admin.Email,
-                "Сайт успішно запущено",
-                $"<p>Вітаємо, {admin.UserName}! Сайт запустився.</p>"
-            );
-        }
-    }
+    //foreach (var admin in admins)
+    //{
+    //    if (!string.IsNullOrEmpty(admin.Email))
+    //    {
+    //        await emailSender.SendEmailAsync(
+    //            admin.Email,
+    //            "Сайт успішно запущено",
+    //            $"<p>Вітаємо, {admin.UserName}! Сайт запустився.</p>"
+    //        );
+    //    }
+    //}
 }
 
 app.UseSwagger();

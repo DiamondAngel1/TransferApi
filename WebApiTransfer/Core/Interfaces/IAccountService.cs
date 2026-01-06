@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Models.Account;
+using Core.Models.Search;
 using Domain.Entities.Identity;
 
 namespace Core.Interfaces
@@ -17,5 +18,6 @@ namespace Core.Interfaces
         Task<UserProfileModel> GetUserProfileAsync();
         public Task<bool> ForgotPasswordAsync(ForgotPasswordModel model);
         public Task<bool> ResetPasswordAsync(ResetPasswordModel model);
+        public Task<SearchResult<UserItemModel>> SearchAsync(UserSearchModel model);
     }
 }

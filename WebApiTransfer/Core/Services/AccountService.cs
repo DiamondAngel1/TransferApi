@@ -9,6 +9,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Core.Interfaces;
 using Core.Models.Account;
+using Core.Models.Search;
 using Domain;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -120,5 +121,60 @@ namespace Core.Services
             
             return true;
         }
+
+        public async Task<SearchResult<UserItemModel>> SearchAsync(UserSearchModel model)
+        {
+            var query = transferContext.Users.AsQueryable();
+
+            // Фільтр по імені
+            if (!string.IsNullOrWhiteSpace(model.Name))
+            {
+                string nameFilter = model.Name.Trim().ToLower();
+                query = query.Where(u =>
+                    (u.FirstName + " " + u.LastName).ToLower().Contains(nameFilter)
+                    || u.FirstName.ToLower().Contains(nameFilter)
+                    || u.LastName.ToLower().Contains(nameFilter));
+            }
+
+            // Фільтр по даті початку
+            if (model?.StartDate != null)
+            {
+                var startUtc = DateTime.SpecifyKind(model.StartDate.Value, DateTimeKind.Utc);
+                query = query.Where(u => u.DateCreated >= startUtc);
+            }
+
+            if (model?.EndDate != null)
+            {
+                var endUtc = DateTime.SpecifyKind(model.EndDate.Value, DateTimeKind.Utc);
+                query = query.Where(u => u.DateCreated <= endUtc);
+            }
+
+            // Підрахунок
+            var totalItems = await query.CountAsync();
+            var safeItemsPerPage = model.ItemPerPage < 1 ? 10 : model.ItemPerPage;
+            var totalPages = (int)Math.Ceiling((double)totalItems / safeItemsPerPage);
+            var safePage = Math.Min(Math.Max(1, model.Page), Math.Max(1, totalPages));
+
+            // Пагінація
+            var users = await query
+                .OrderBy(u => u.Id)
+                .Skip((safePage - 1) * safeItemsPerPage)
+                .Take(safeItemsPerPage)
+                .ProjectTo<UserItemModel>(mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return new SearchResult<UserItemModel>
+            {
+                Items = users,
+                Pagination = new PaginationModel
+                {
+                    TotalCount = totalItems,
+                    TotalPages = totalPages,
+                    ItemsPerPage = safeItemsPerPage,
+                    CurrentPage = safePage
+                }
+            };
+        }
+
     }
 }

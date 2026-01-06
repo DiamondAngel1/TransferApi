@@ -14,6 +14,7 @@ import ForgotPasswordPage from "./Pages/ForgotPasswordPage.tsx";
 import ResetPasswordPage from "./Pages/ResetPasswordPage.tsx";
 import Dashboard from "./admin/Pages/Dashboard/Dashboard.tsx";
 import AppLayout from "./admin/Layout/AppLayout.tsx";
+import AllUsersFilterPage from "./Pages/AllUsersFilterPage.tsx";
 
 function App() {
     return (
@@ -39,6 +40,7 @@ function App() {
                 <Route path="cities/:slug" element={<CityDescriptionPage />} />
                 <Route path="edit-country/:id" element={<EditCountryPage />} />
                 <Route path="profile" element={<ProfilePage />} />
+                <Route path="all-users" element={<AllUsersFilterPage/>} />
             </Route>
         </Routes>
     );

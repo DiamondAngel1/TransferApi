@@ -20,6 +20,7 @@
     "lucide-react": "^0.561.0",
     "object-to-formdata": "^4.5.1",
     "react": "^19.2.0",
+    "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.0",
     "react-helmet-async": "^2.0.5",
     "react-is": "^19.2.3",
@@ -47,6 +48,9 @@
     "react-quill": {
       "react": "^16.8.0 || ^17 || ^18 || ^19",
       "react-dom": "^16.8.0 || ^17 || ^18 || ^19"
+    },
+    "react-helmet-async": {
+      "react": "^16.8.0 || ^17 || ^18 || ^19"
     }
   }
 }
