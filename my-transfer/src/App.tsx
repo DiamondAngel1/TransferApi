@@ -15,9 +15,11 @@ import ResetPasswordPage from "./Pages/ResetPasswordPage.tsx";
 import Dashboard from "./admin/Pages/Dashboard/Dashboard.tsx";
 import AppLayout from "./admin/Layout/AppLayout.tsx";
 import AllUsersFilterPage from "./Pages/AllUsersFilterPage.tsx";
+import {GoogleOAuthProvider} from "@react-oauth/google";
 
 function App() {
     return (
+        <GoogleOAuthProvider clientId="334276158389-94cate7sf5jbeta7thb2k96h6vrf94c6.apps.googleusercontent.com">
         <Routes>
             <Route path="/" element={<MainLayout />}>
                 <Route index element={<HomePage />} />
@@ -28,7 +30,6 @@ function App() {
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
-
             </Route>
             <Route path="/admin-panel" element={<AppLayout/>}>
                 <Route index element={<Dashboard />} />
@@ -43,6 +44,7 @@ function App() {
                 <Route path="all-users" element={<AllUsersFilterPage/>} />
             </Route>
         </Routes>
+        </GoogleOAuthProvider>
     );
 }
 export default App;

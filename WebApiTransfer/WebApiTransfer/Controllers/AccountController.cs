@@ -27,16 +27,19 @@ namespace WebApiTransfer.Controllers
         [HttpPost("googleLogin")]
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginRequestModel model)
         {
-            var user = await googleAccountService.LoginByGoogleAsync(model);
-            var roles = await googleAccountService.GetUserRolesAsync(user);
+            var result = await googleAccountService.LoginByGoogleAsync(model.IdToken);
+            if (string.IsNullOrEmpty(result))
+            {
+                return BadRequest(new
+                {
+                    Status = 400,
+                    IsValid = false,
+                    Errors = new { Email = "Помилка реєстрації" }
+                });
+            }
             return Ok(new
             {
-                user.Id,
-                user.Email,
-                user.FirstName,
-                user.LastName,
-                user.Image,
-                Roles = roles
+                Token = result
             });
         }
 

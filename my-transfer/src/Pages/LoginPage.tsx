@@ -1,5 +1,5 @@
 import axios from "axios";
-import {GoogleOAuthProvider, GoogleLogin, type CredentialResponse} from "@react-oauth/google";
+import {useGoogleLogin} from "@react-oauth/google";
 import APP_ENV from "../env";
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
@@ -38,20 +38,29 @@ function LoginPage() {
         }
     }
 
-    const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
-        try {
-            const idToken = credentialResponse.credential;
-            const response = await axios.post(`${APP_ENV.API_BASE_URL}/api/Account/googleLogin`, {
-                idToken
-            });
-            console.log("Google користувач:", response.data);
-        } catch (error) {
-            console.error("Google логін не вдалий:", error);
-        }
-    };
+    const handleGoogleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) =>
+        {
+            console.log("tokenResponse", tokenResponse.access_token);
+            //console.log("tokenResponse", tokenResponse);
+            try {
+
+                const response =
+                    await axios.post(`${APP_ENV.API_BASE_URL}/api/Account/googleLogin`, {
+                        idToken: tokenResponse.access_token
+                    });
+                const { token } = response.data;
+                dispatch(login(token));
+                navigate("/");
+                console.log("Google користувач:", response.data);
+            } catch (error) {
+                console.error("Google логін не вдалий:", error);
+            }
+        },
+    });
 
     return (
-        <GoogleOAuthProvider clientId="334276158389-94cate7sf5jbeta7thb2k96h6vrf94c6.apps.googleusercontent.com">
+
             <div style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}>
                 <form
                     onSubmit={handleLogin}
@@ -112,12 +121,16 @@ function LoginPage() {
                 </form>
                 <hr style={{ margin: "20px 0" }} />
 
-                <GoogleLogin
-                    onSuccess={handleGoogleLogin}
-                    onError={() => console.log("Логін не вдалий")}
-                />
+                <button
+                    onClick={(event) => {
+                        event.preventDefault();
+                        handleGoogleLogin();
+                    }}
+                    className="bg-blue-500 hover:bg-blue-600 transition text-white font-semibold px-4 py-2 rounded w-full mt-4"
+                >
+                    {'LoginGoogle'}
+                </button>
             </div>
-        </GoogleOAuthProvider>
     );
 }
 

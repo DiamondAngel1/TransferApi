@@ -11,7 +11,7 @@ namespace Core.Interfaces
 {
     public interface IGoogleAccountService
     {
-        Task<UserEntity> LoginByGoogleAsync(GoogleLoginRequestModel model);
+        Task<string> LoginByGoogleAsync(string token);
         Task<JwtSecurityToken> ValidateGoogleTokenAsync(string idToken, string clientId);
         Task<IList<string>> GetUserRolesAsync(UserEntity user);
     }

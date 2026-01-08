@@ -15,12 +15,8 @@ namespace Core.Mappers
         public UserMapper()
         {
             CreateMap<GoogleAccountModel, UserEntity>()
-                .ForMember(u => u.UserName, opt => opt.MapFrom(m => m.GoogleId))
-                .ForMember(u => u.Email, opt => opt.MapFrom(m => m.Email))
-                .ForMember(u => u.FirstName, opt => opt.MapFrom(m => m.FirstName))
-                .ForMember(u => u.LastName, opt => opt.MapFrom(m => m.LastName))
-                .ForMember(u => u.Image, opt => opt.MapFrom(m => m.PictureUrl))
-                .ForMember(u => u.EmailConfirmed, opt => opt.MapFrom(_ => true));
+                .ForMember(x => x.Image, opt => opt.Ignore())
+            .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.Email));
 
             CreateMap<RegisterModel, UserEntity>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(m => m.Email))

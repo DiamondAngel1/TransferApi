@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -10,7 +11,9 @@ using AutoMapper;
 using Core.Interfaces;
 using Core.Models.User;
 using Domain.Entities.Identity;
+using MailKit;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using static System.Net.WebRequestMethods;
 
@@ -19,47 +22,62 @@ namespace Core.Services
     public class GoogleAccountService(
         UserManager<UserEntity> userManager,
         RoleManager<RoleEntity> roleManager,
+        IConfiguration configuration,
+        IImageService imageService,
+        IJwtTokenService jwtTokenService,
         IMapper mapper) : IGoogleAccountService
     {
-        public async Task<UserEntity> LoginByGoogleAsync(GoogleLoginRequestModel model)
+        public async Task<string> LoginByGoogleAsync(string accessToken)
         {
-            //також тут можна було б не створювати ще одного метода
-            //а просто викоритсати бібліотеку Google.Apis.Auth і її метод ValidateAsync
+            using var httpClient = new HttpClient();
 
-            var jwt = await ValidateGoogleTokenAsync(model.IdToken, "334276158389-94cate7sf5jbeta7thb2k96h6vrf94c6.apps.googleusercontent.com");
-            Console.WriteLine(JsonSerializer.Serialize(jwt.Claims.Select(c => new { c.Type, c.Value })));
+            var userInfoUrl = $"https://www.googleapis.com/oauth2/v3/userinfo?access_token={accessToken}";
+            var response = await httpClient.GetAsync(userInfoUrl);
 
-            var googleUser = new GoogleAccountModel
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+            var googleUser = JsonSerializer.Deserialize<GoogleAccountModel>(json);
+
+            if (googleUser == null || googleUser.Email == null)
+                return null;
+
+            var existingUser = await userManager.FindByEmailAsync(googleUser.Email);
+
+            if (existingUser != null)
             {
-                GoogleId = jwt.Claims.First(c => c.Type == "sub").Value,
-                Email = jwt.Claims.First(c => c.Type == "email").Value,
-                FirstName = jwt.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value ?? "",
-                LastName = jwt.Claims.FirstOrDefault(c => c.Type == "family_name")?.Value ?? "",
-                PictureUrl = jwt.Claims.FirstOrDefault(c => c.Type == "picture")?.Value ?? ""
-            };
+                var login = await userManager.FindByLoginAsync("Google", googleUser.GoogleId);
 
-            var user = await userManager.FindByEmailAsync(googleUser.Email);
-            if (user == null)
-            {
-                user = mapper.Map<UserEntity>(googleUser);
-
-                var result = await userManager.CreateAsync(user);
-                if (!result.Succeeded)
-                    throw new Exception("Створення користувача невдале");
-
-                if (!await roleManager.RoleExistsAsync("User"))
+                if (login == null)
                 {
-                    await roleManager.CreateAsync(new RoleEntity("User"));
+                    await userManager.AddLoginAsync(existingUser,
+                        new UserLoginInfo("Google", googleUser.GoogleId, "Google"));
                 }
-                await userManager.AddToRoleAsync(user, "User");
+
+                return await jwtTokenService.CreateAsync(existingUser);
             }
-            var login = await userManager.FindByLoginAsync("Google", googleUser.GoogleId);
-            if (login == null)
+
+            var newUser = mapper.Map<UserEntity>(googleUser);
+
+            if (!string.IsNullOrEmpty(googleUser.PictureUrl))
             {
-                await userManager.AddLoginAsync(user, new UserLoginInfo("Google", googleUser.GoogleId, "Google"));
+                newUser.Image = await imageService.SaveImageFromUrlAsync(googleUser.PictureUrl);
             }
-            return user;
+
+            var result = await userManager.CreateAsync(newUser);
+
+            if (!result.Succeeded)
+                return null;
+
+            await userManager.AddLoginAsync(newUser,
+                new UserLoginInfo("Google", googleUser.GoogleId, "Google"));
+
+            await userManager.AddToRoleAsync(newUser, "User");
+
+            return await jwtTokenService.CreateAsync(newUser);
         }
+
 
         public async Task<JwtSecurityToken> ValidateGoogleTokenAsync(string idToken, string clientId)
         {
