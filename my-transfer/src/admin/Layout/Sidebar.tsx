@@ -1,4 +1,15 @@
-import {Zap, LayoutDashboard, Users, FileText, Settings, ChevronDown, Package, Building2Icon, BuildingIcon} from "lucide-react";
+import {
+    Zap,
+    LayoutDashboard,
+    Users,
+    FileText,
+    Settings,
+    ChevronDown,
+    Package,
+    Building2Icon,
+    BuildingIcon,
+    Tickets
+} from "lucide-react";
 import {useAppSelector} from "../../app/store.ts";
 import APP_ENV from "../../env";
 import {useState} from "react";
@@ -29,6 +40,15 @@ const menuItems = [
             {id: "cities", label: "Cities"},
             {id: "add-city", label: "Add City"},
         ],
+    },
+    {
+        id:"ticket",
+        icon: Tickets,
+        label: "Ticket",
+        submenu: [
+            {id: "tickets", label: "Tickets"},
+            {id: "add-tickets", label: "Add Tickets"},
+        ]
     },
     {
         id: "inventory",

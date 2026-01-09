@@ -3,7 +3,6 @@ import axios from "axios";
 import type {ICity} from "../Interfaces/Country/ICountry.ts";
 import { useNavigate } from "react-router-dom";
 import APP_ENV from "../env";
-import RedirectBtn from "../Components/RedirectBtn.tsx";
 import {useAppSelector} from "../app/store.ts";
 
 function HomePage() {
@@ -34,10 +33,6 @@ function HomePage() {
 
     return (
         <div className="p-10 bg-transparent min-h-screen">
-            {user!=null && user.roles == "Admin" && (
-                <RedirectBtn/>
-            )}
-
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
                 {countries.map(country => (
                     <div

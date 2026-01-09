@@ -26,6 +26,8 @@ namespace Domain
         public DbSet<TransportationStatusEntity> TransportationStatuses { get; set; }
         public DbSet<TransportationEntity> Transportations { get; set; }
 
+        public DbSet<CartEntity> Carts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -42,14 +44,17 @@ namespace Domain
                 .HasForeignKey(ur => ur.RoleId);
 
             builder.Entity<CityEntity>()
-    .HasMany(c => c.Departures)
-    .WithOne(t => t.FromCity)
-    .HasForeignKey(t => t.FromCityId);
+                .HasMany(c => c.Departures)
+                .WithOne(t => t.FromCity)
+                .HasForeignKey(t => t.FromCityId);
 
             builder.Entity<CityEntity>()
                 .HasMany(c => c.Arrivals)
                 .WithOne(t => t.ToCity)
                 .HasForeignKey(t => t.ToCityId);
+
+            builder.Entity<CartEntity>()
+                .HasKey(t => new { t.TransportationId, t.UserId});
         }
     }
 }

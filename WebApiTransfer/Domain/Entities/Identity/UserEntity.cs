@@ -14,5 +14,7 @@ namespace Domain.Entities.Identity
         public string? Image { get; set; } = null;
         public DateTime DateCreated { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
         public ICollection<UserRoleEntity> UserRoles { get; set; } = null!;
+        public ICollection<CartEntity> Carts { get; set; } = null!;
     }
+
 }

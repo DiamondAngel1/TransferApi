@@ -77,6 +77,10 @@ builder.Services.AddScoped<IGoogleAccountService, GoogleAccountService>();
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
+builder.Services.AddScoped<ITransportationService, TransportationService>();
+
+builder.Services.AddScoped<ICartService, CartService>();
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
@@ -160,32 +164,32 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    await UserSeeder.SeedAsync(userManager, roleManager, env);
-    int countUsers = 100;
-    var faker = new Faker("uk");
-    for (int i = 0; i < countUsers; i++)
-    {
-        var firstName = faker.Name.FirstName();
-        var lastName = faker.Name.LastName();
-        var email = faker.Internet.Email(firstName, lastName);
-        var user = new UserEntity
-        {
-            UserName = email,
-            Email = email,
-            FirstName = firstName,
-            LastName = lastName,
-            Image = "default.webp"
-        };
-        var userResult = await userManager.CreateAsync(user, "User123");
-        if (userResult.Succeeded)
-        {
-            await userManager.AddToRoleAsync(user, "User");
-        }
-    }
-    await CountrySeeder.SeedAsync(context, env);
-    await CitySeeder.SeedAsync(context, env);
-    await TrasportationStatusSeeder.SeedAsync(context, env);
-    await TransportationSeeder.SeedAsync(context, env);
+    //await UserSeeder.SeedAsync(userManager, roleManager, env);
+    //int countUsers = 100;
+    //var faker = new Faker("uk");
+    //for (int i = 0; i < countUsers; i++)
+    //{
+    //    var firstName = faker.Name.FirstName();
+    //    var lastName = faker.Name.LastName();
+    //    var email = faker.Internet.Email(firstName, lastName);
+    //    var user = new UserEntity
+    //    {
+    //        UserName = email,
+    //        Email = email,
+    //        FirstName = firstName,
+    //        LastName = lastName,
+    //        Image = "default.webp"
+    //    };
+    //    var userResult = await userManager.CreateAsync(user, "User123");
+    //    if (userResult.Succeeded)
+    //    {
+    //        await userManager.AddToRoleAsync(user, "User");
+    //    }
+    //}
+    //await CountrySeeder.SeedAsync(context, env);
+    //await CitySeeder.SeedAsync(context, env);
+    //await TrasportationStatusSeeder.SeedAsync(context, env);
+    //await TransportationSeeder.SeedAsync(context, env);
 
     //var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
     //var admins = await userManager.GetUsersInRoleAsync("Admin");

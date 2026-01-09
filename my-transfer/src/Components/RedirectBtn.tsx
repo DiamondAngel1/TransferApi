@@ -3,14 +3,12 @@ import {useNavigate} from "react-router-dom";
 function RedirectBtn() {
     const navigate = useNavigate();
     return (
-        <div className="flex justify-center mb-6">
-            <button
-                onClick={() => navigate("/admin-panel")}
-                className="px-6 py-2 rounded-lg bg-green-600 text-white font-semibold shadow hover:bg-green-700 transition"
-            >
-                Перейти на адмін панель
-            </button>
-        </div>
+        <button
+            onClick={() => navigate("/admin-panel")}
+            className="hover:text-gray-200 transition flex items-center font-medium"
+        >
+            Перейти на адмін панель
+        </button>
     );
 };
 

@@ -59,7 +59,9 @@ namespace Domain.Entities
         /// </summary>
         [ForeignKey(nameof(Status))]
         public int StatusId { get; set; }
+        public float Price { get; set; }
         public TransportationStatusEntity Status { get; set; }
+        public ICollection<CartEntity> Carts { get; set; } = null!;
 
     }
 }

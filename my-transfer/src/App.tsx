@@ -16,6 +16,8 @@ import Dashboard from "./admin/Pages/Dashboard/Dashboard.tsx";
 import AppLayout from "./admin/Layout/AppLayout.tsx";
 import AllUsersFilterPage from "./Pages/AllUsersFilterPage.tsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import TransportationsPage from "./Pages/TransportationsPage.tsx";
+import AddTicketsPage from "./Pages/AddTicketsPage.tsx";
 
 function App() {
     return (
@@ -25,6 +27,7 @@ function App() {
                 <Route index element={<HomePage />} />
                 <Route path="/cities" element={<CitiesPage />} />
                 <Route path="/cities/:slug" element={<CityDescriptionPage />} />
+                <Route path="/tickets" element={<TransportationsPage/>}/>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
@@ -35,9 +38,11 @@ function App() {
                 <Route index element={<Dashboard />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="add-country" element={<AddCountry />} />
+                <Route path="add-tickets" element={<AddTicketsPage />} />
                 <Route path="cities" element={<CitiesPage />} />
                 <Route path="countries" element={<HomePage />} />
                 <Route path="add-city" element={<AddCities />} />
+                <Route path="tickets" element={<TransportationsPage/>}/>
                 <Route path="cities/:slug" element={<CityDescriptionPage />} />
                 <Route path="edit-country/:id" element={<EditCountryPage />} />
                 <Route path="profile" element={<ProfilePage />} />
