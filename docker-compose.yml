@@ -19,26 +19,25 @@ services:
       
   api:
     #build: ./WebApiTransfer
-    image: siuzanna/transfer-api:latest
+    image: novakvova/stransfer-api:latest
     depends_on:
       - db
     ports:
-      - "5898:8080"
+      - "6789:8080"
     networks:
       - transferNet
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ConnectionStrings__DefaultConnection: Host=db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
     volumes:
-      - api_data:/app/data
-      - ./WebApiTransfer/SeedData/Images:/app/Public/Images
+      - api_data:/app/Images
 
 
   frontend:
     #build: ./my-transfer
-    image: siuzanna/transfer-react:latest
+    image: novakvova/stransfer-react:latest
     ports:
-      - "3987:80"
+      - "3421:80"
     env_file: 
       - .env
       

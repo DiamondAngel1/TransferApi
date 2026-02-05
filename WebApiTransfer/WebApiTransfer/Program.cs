@@ -186,8 +186,8 @@ using (var scope = app.Services.CreateScope())
     //        await userManager.AddToRoleAsync(user, "User");
     //    }
     //}
-    //await CountrySeeder.SeedAsync(context, env);
-    //await CitySeeder.SeedAsync(context, env);
+    await CountrySeeder.SeedAsync(context, env);
+    await CitySeeder.SeedAsync(context, env);
     //await TrasportationStatusSeeder.SeedAsync(context, env);
     //await TransportationSeeder.SeedAsync(context, env);
 
