@@ -19,11 +19,11 @@ services:
       
   api:
     #build: ./WebApiTransfer
-    image: novakvova/stransfer-api:latest
+    image: siuzanna/transferp-api:latest
     depends_on:
       - db
     ports:
-      - "6789:8080"
+      - "5898:8080"
     networks:
       - transferNet
     environment:
@@ -35,7 +35,7 @@ services:
 
   frontend:
     #build: ./my-transfer
-    image: novakvova/stransfer-react:latest
+    image: siuzanna/transferp-react:latest
     ports:
       - "3421:80"
     env_file: 
@@ -44,4 +44,3 @@ services:
 volumes:
   db_data:
   api_data:
-
