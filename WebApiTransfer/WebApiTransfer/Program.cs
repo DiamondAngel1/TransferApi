@@ -188,8 +188,8 @@ using (var scope = app.Services.CreateScope())
     //}
     await CountrySeeder.SeedAsync(context, env);
     await CitySeeder.SeedAsync(context, env);
-    //await TrasportationStatusSeeder.SeedAsync(context, env);
-    //await TransportationSeeder.SeedAsync(context, env);
+    await TrasportationStatusSeeder.SeedAsync(context, env);
+    await TransportationSeeder.SeedAsync(context, env);
 
     //var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
     //var admins = await userManager.GetUsersInRoleAsync("Admin");

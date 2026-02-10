@@ -6,6 +6,8 @@ WORKDIR /source
 COPY ["WebApiTransfer/WebApiTransfer.csproj", "WebApiTransfer/"]
 RUN dotnet restore "WebApiTransfer/WebApiTransfer.csproj"
 
+COPY SeedData/Images/* /app/Images/
+
 # Копіюємо всі файли і будуємо додаток
 COPY . .
 WORKDIR /source/WebApiTransfer
