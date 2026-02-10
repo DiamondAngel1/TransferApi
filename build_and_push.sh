@@ -13,4 +13,4 @@ docker tag transferp-api:latest siuzanna/transferp-api:latest
 docker push siuzanna/transferp-api:latest
 
 echo "Done --api--"
-read -p "Press any key"
+echo "Build and push completed successfully."
